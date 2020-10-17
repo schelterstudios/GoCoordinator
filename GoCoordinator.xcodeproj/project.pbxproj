@@ -8,12 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		AAB90099253BAD9200311307 /* GoCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB90097253BAD9200311307 /* GoCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAB900A8253BAEC200311307 /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A1253BAEC200311307 /* StoryboardCoordinator.swift */; };
+		AAB900A9253BAEC200311307 /* UIViewController+Go.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A2253BAEC200311307 /* UIViewController+Go.swift */; };
+		AAB900AA253BAEC200311307 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A3253BAEC200311307 /* Coordinator.swift */; };
+		AAB900AB253BAEC200311307 /* NibCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A4253BAEC200311307 /* NibCoordinator.swift */; };
+		AAB900AC253BAEC200311307 /* ManualCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A5253BAEC200311307 /* ManualCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		AAB90094253BAD9200311307 /* GoCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB90097253BAD9200311307 /* GoCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoCoordinator.h; sourceTree = "<group>"; };
 		AAB90098253BAD9200311307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAB900A1253BAEC200311307 /* StoryboardCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardCoordinator.swift; sourceTree = "<group>"; };
+		AAB900A2253BAEC200311307 /* UIViewController+Go.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Go.swift"; sourceTree = "<group>"; };
+		AAB900A3253BAEC200311307 /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		AAB900A4253BAEC200311307 /* NibCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibCoordinator.swift; sourceTree = "<group>"; };
+		AAB900A5253BAEC200311307 /* ManualCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,6 +56,11 @@
 		AAB90096253BAD9200311307 /* GoCoordinator */ = {
 			isa = PBXGroup;
 			children = (
+				AAB900A3253BAEC200311307 /* Coordinator.swift */,
+				AAB900A5253BAEC200311307 /* ManualCoordinator.swift */,
+				AAB900A4253BAEC200311307 /* NibCoordinator.swift */,
+				AAB900A1253BAEC200311307 /* StoryboardCoordinator.swift */,
+				AAB900A2253BAEC200311307 /* UIViewController+Go.swift */,
 				AAB90097253BAD9200311307 /* GoCoordinator.h */,
 				AAB90098253BAD9200311307 /* Info.plist */,
 			);
@@ -94,6 +109,7 @@
 				TargetAttributes = {
 					AAB90093253BAD9200311307 = {
 						CreatedOnToolsVersion = 12.0.1;
+						LastSwiftMigration = 1200;
 					};
 				};
 			};
@@ -130,6 +146,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAB900AB253BAEC200311307 /* NibCoordinator.swift in Sources */,
+				AAB900A9253BAEC200311307 /* UIViewController+Go.swift in Sources */,
+				AAB900A8253BAEC200311307 /* StoryboardCoordinator.swift in Sources */,
+				AAB900AA253BAEC200311307 /* Coordinator.swift in Sources */,
+				AAB900AC253BAEC200311307 /* ManualCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +282,7 @@
 		AAB9009D253BAD9200311307 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = LUTA3PBZC8;
@@ -277,6 +299,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.schelterstudios.GoCoordinator;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -285,6 +308,7 @@
 		AAB9009E253BAD9200311307 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = LUTA3PBZC8;
