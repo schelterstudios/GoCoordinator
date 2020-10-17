@@ -1,6 +1,4 @@
-Podfile.lock
-Pods/
-build/
+.DS_Store
 *.xcworkspace
 *.xcuserstate
-.DS_Store
+*.xcuserdata
