@@ -14,6 +14,8 @@ To begin, let's create a new app using the iOS App template:
 Next, set your options to Storyboard and UIKit:
 ![New Project Options](/images/setup2.png)
 
+Now that the project files are in place, add the GoCoordinator framework using the [installation](https://github.com/schelterstudios/GoCoordinator/blob/intro-documentation/README.md#installation) instructions.
+
 Since coordinators are about view hierarchy control, we don't want our app to automatically instantiate view controllers. To prevent this, select your info.plist and delete the two lines selected here:
 ![Storyboard references in info.plist](/images/setup3.png)
 
