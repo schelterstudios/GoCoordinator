@@ -10,13 +10,13 @@ import Foundation
 import class UIKit.UIViewController
 import class UIKit.UIStoryboard
 
-protocol StoryboardOwner {
+public protocol StoryboardOwner {
     var storyboardName: String { get }
 }
 
 open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
     
-    var storyboardName: String {
+    public var storyboardName: String {
         if ownerName != nil { return ownerName! }
         
         var name = NSStringFromClass(Self.self).components(separatedBy: ".").last!
@@ -29,12 +29,12 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
     private let ownerName: String?
     private let identifier: String?
     
-    init(owner: StoryboardOwner, identifier: String) {
+    public init(owner: StoryboardOwner, identifier: String) {
         self.ownerName = owner.storyboardName
         self.identifier = identifier
     }
     
-    override init() {
+    public override init() {
         self.ownerName = nil
         self.identifier = nil
     }

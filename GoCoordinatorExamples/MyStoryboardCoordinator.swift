@@ -10,6 +10,14 @@ import GoCoordinator
 
 class MyStoryboardCoordinator: StoryboardCoordinator<UIViewController> {
     
+    init(owner: StoryboardOwner) {
+        super.init(owner: owner, identifier: "test")
+    }
+    
+    override init() {
+        super.init()
+    }
+    
     override func start() {
         super.start()
     }
