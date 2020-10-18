@@ -97,3 +97,6 @@ A few things to note here. First of all, view controllers should not be interact
 ![My Xibs](/images/nib3.png)
 
 Now run your app. Tapping the buttons should now present and dismiss your new view.
+
+# Subclassing Coordinators
+(coming soon)
