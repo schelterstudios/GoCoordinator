@@ -47,3 +47,14 @@ Build your app now, and you should see a lovely magenta screen. Congrats, you ju
 3. Call the coordinator's `start()` method.
 
 # NibCoordinator and subclassing
+ManualCoordinators are useful for testing with, but you likely wouldn't rely on them beyond that. NibCoordinators and StoryboardCoordinators are far more useful, as they leverage xibs and storyboards with UIKit. Let's set up a view controller using a Xib. First, create a new UIViewController and name it MyNibViewController. Let's add the following code:
+```swift
+@IBOutlet weak var label: UILabel!
+    
+override func viewDidLoad() {
+    super.viewDidLoad()
+    label.text = "Hello, World!"
+}
+```
+Next, create a new View User Interface
+![Setting up the Xib](/images/nib1.png)
