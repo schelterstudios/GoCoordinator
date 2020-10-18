@@ -86,4 +86,11 @@ Working with coordinators is nice and all, but it doesn't get us very far withou
     go.dismiss()
 }
 ```
-Since GoCoordinator is in your project, your view controllers automatically have access to **go**. This is the only logic you need for **MyNib2ViewController** to dismiss its coordinator (and itself in the process).
+Since GoCoordinator is in your project, your view controllers automatically have access to **go**. This is the only logic you need for **MyNib2ViewController** to dismiss its coordinator (and itself in the process). Now go to your **MyNibViewController** class. Feel free to remove the "Hello, World!" logic, and add `import GoCoordinator`. Add this code:
+```swift
+@IBAction func next(_ sender: Any?) {
+    let coordinator = NibCoordinator<MyNib2ViewController>().asAnyCoordinator()
+    go.present(coordinator:coordinator)
+}
+```
+A few things to note here. First of all, view controllers should not be interacting with coordinators beyond instantiating and passing to **go**. We don't even need to call `start()` here, since that is handled internally by our coordinators. The second is the introduction to `asAnyCoordinator()`. This method erases the concretion of our coordinator, as well as its generics, by wrapping it into **AnyCoordinator**. If you have no reason to maintain a concrete reference, you will most likely prefer **AnyCoordinator**, as it lets you store and interact with it in more abstract ways. Whenever you pass a coordinator to **go**, you must first erase concretion.
