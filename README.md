@@ -46,7 +46,7 @@ Build your app now, and you should see a lovely magenta screen. Congrats, you ju
 2. Grab its `viewController` and insert into the view hierarchy.
 3. Call the coordinator's `start()` method.
 
-# NibCoordinators and go hooks 
+# Switching to NibCoordinator
 ManualCoordinators are useful for testing with, but you likely wouldn't rely on them beyond that. NibCoordinators and StoryboardCoordinators are far more useful, as they leverage xibs and storyboards with UIKit. Let's set up a view controller using a xib. First, create a new **UIViewController** and name it **MyNibViewController**. Let's add the following code:
 ```swift
 @IBOutlet weak var label: UILabel!
@@ -77,4 +77,7 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
     window?.makeKeyAndVisible()
 }
 ```
-Go ahead and run it to see your new view. Generally by convention, xibs are given the same name as their **file's owner**. We leverage that in GoCoordinator to instantiate the view controller and attach its nib automatically. All you need to do is declare the view controller for NibCoordinator using *generics.*
+Go ahead and run it to see your new view. Generally by convention, xibs are given the same name as their **file's owner**. We leverage that in GoCoordinator to instantiate the view controller and attach its nib automatically. All you need to do is declare the view controller for NibCoordinator using *generics.* 
+
+# Navigating with GO
+Working with coordinators is nice and all, but it doesn't get us very far without navigation. GoCoordinator provides a power hook named **go** for view controllers. Use **go** for pushing, popping, presenting, and dismissing views via their respective coordinators. Let's try it with our app.
