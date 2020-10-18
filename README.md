@@ -80,4 +80,10 @@ func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options conn
 Go ahead and run it to see your new view. Generally by convention, xibs are given the same name as their **file's owner**. We leverage that in GoCoordinator to instantiate the view controller and attach its nib automatically. All you need to do is declare the view controller for NibCoordinator using *generics.* 
 
 # Navigating with GO
-Working with coordinators is nice and all, but it doesn't get us very far without navigation. GoCoordinator provides a power hook named **go** for view controllers. Use **go** for pushing, popping, presenting, and dismissing views via their respective coordinators. Let's try it with our app.
+Working with coordinators is nice and all, but it doesn't get us very far without navigation. GoCoordinator provides a powerful hook named **go** for view controllers. Use **go** for pushing, popping, presenting, and dismissing views via their respective coordinators. Let's try it with our app. First, go ahead and add **MyNib2ViewController** swift and xib files. In the class file, add the following code:
+```swift
+@IBAction func back(_ sender: Any?) {
+    go.dismiss()
+}
+```
+Since GoCoordinator is in your project, your view controllers automatically have access to **go**. This is the only logic you need for **MyNib2ViewController** to dismiss its coordinator (and itself in the process).
