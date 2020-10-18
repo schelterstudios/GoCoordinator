@@ -9,7 +9,9 @@
 import Foundation
 import class UIKit.UIViewController
 
-public class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
+open class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
+    
+    public override init() {}
     
     override func instantiateViewController() -> VC {
         let vc = VC()

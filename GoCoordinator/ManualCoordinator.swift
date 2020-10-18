@@ -9,15 +9,15 @@
 import Foundation
 import UIKit.UIViewController
 
-public class ManualCoordinator: CoordinatorBase<UIViewController> {
+open class ManualCoordinator: CoordinatorBase<UIViewController> {
     
     private let block: () -> UIViewController
     
-    init(block: @escaping ()->UIViewController ) {
+    public init(block: @escaping ()->UIViewController ) {
         self.block = block
     }
     
-    init(viewController: UIViewController) {
+    public init(viewController: UIViewController) {
         self.block = { viewController }
     }
     

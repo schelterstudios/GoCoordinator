@@ -11,7 +11,7 @@ import class UIKit.UIViewController
 import class UIKit.UINavigationController
 import class UIKit.UITabBarController
 
-enum CoordinatorError: Error {
+public enum CoordinatorError: Error {
     case navigationError
 }
 
@@ -25,7 +25,7 @@ public protocol CoordinatorNavigator: class {
     func dismiss(completion: ((Bool)->Void)?)
 }
 
-extension CoordinatorNavigator {
+public extension CoordinatorNavigator {
     
     func present(coordinator: AnyCoordinator) {
         present(coordinator: coordinator, completion: nil)
@@ -52,17 +52,17 @@ extension CoordinatorNavigator {
     }
 }
 
-protocol CoordinatorAbstractor: class {
+public protocol CoordinatorAbstractor: class {
     func asAnyCoordinator() -> AnyCoordinator
 }
 
-protocol Coordinator: CoordinatorNavigator, CoordinatorAbstractor {
+public protocol Coordinator: CoordinatorNavigator, CoordinatorAbstractor {
     associatedtype VC: UIViewController
     var viewController: VC { get }
     func start()
 }
 
-extension Coordinator {
+public extension Coordinator {
     func asAnyCoordinator() -> AnyCoordinator {
         return AnyCoordinator(self)
     }
@@ -73,9 +73,9 @@ public protocol CoordinatorParent: class {
     func dismissPresented(animated: Bool, completion: ((Bool)->Void)?)
 }
 
-public class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent {
+open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent {
     
-    lazy var viewController = instantiateViewController()
+    lazy public var viewController = instantiateViewController()
     weak public var parent: CoordinatorParent?
     weak public var presenting: CoordinatorParent?
     
@@ -86,7 +86,7 @@ public class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorPare
         fatalError("\(#function) not implemented!")
     }
     
-    func start() {
+    public func start() {
         CoordinatorLinker.linker.linkCoordinator(self, for: viewController)
     }
     
@@ -181,7 +181,7 @@ extension UITabBarController {
 
 public class AnyCoordinator: Coordinator {
     
-    var viewController: UIViewController { return wrappedVC() }
+    public var viewController: UIViewController { return wrappedVC() }
     
     public var parent: CoordinatorParent? {
         get { wrappedParentGetter() }
@@ -217,7 +217,7 @@ public class AnyCoordinator: Coordinator {
         wrappedDismiss = { coordinator.dismiss(completion: $0) }
     }
     
-    func start() {
+    public func start() {
         wrappedStart()
     }
     

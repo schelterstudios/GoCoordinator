@@ -26,7 +26,7 @@ fileprivate class CoordinatorWrapper {
     }
 }
 
-class CoordinatorLinker {
+final class CoordinatorLinker {
     
     static var linker = CoordinatorLinker()
     
