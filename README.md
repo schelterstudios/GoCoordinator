@@ -16,11 +16,11 @@ Next, set your options to Storyboard and UIKit:
 
 Now that the project files are in place, add the GoCoordinator framework using the [installation](https://github.com/schelterstudios/GoCoordinator/blob/intro-documentation/README.md#installation) instructions. Remember to use the workspace file when reopening the project!
 
-Since coordinators are about view hierarchy control, we don't want our app to automatically instantiate view controllers. To prevent this, select your info.plist and delete the two lines selected here:
+Since coordinators are about view hierarchy control, we don't want our app to automatically instantiate view controllers. To prevent this, select your **info.plist** and delete the two lines selected here:
 ![Storyboard references in info.plist](/images/setup3.png)
 
 If you run your app at this point, your simulator should just show a black screen. This is good! We will be writing a coordinator to add to our window's root.
-Open your SceneDelegate and add this to your imports:
+Open your **SceneDelegate** and add this to your imports:
 ```swift
 import GoCoordinator
 ```
@@ -45,3 +45,5 @@ Build your app now, and you should see a lovely magenta screen. Congrats, you ju
 1. Instantiate a coordinator.
 2. Grab its `viewController` and insert into the view hierarchy.
 3. Call the coordinator's `start()` method.
+
+# NibCoordinator and subclassing
