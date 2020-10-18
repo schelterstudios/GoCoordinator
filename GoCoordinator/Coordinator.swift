@@ -86,7 +86,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         fatalError("\(#function) not implemented!")
     }
     
-    public func start() {
+    open func start() {
         CoordinatorLinker.linker.linkCoordinator(self, for: viewController)
     }
     

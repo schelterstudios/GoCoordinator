@@ -10,4 +10,7 @@ import GoCoordinator
 
 class MyStoryboardCoordinator: StoryboardCoordinator<UIViewController> {
     
+    override func start() {
+        super.start()
+    }
 }
