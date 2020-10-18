@@ -93,4 +93,7 @@ Since GoCoordinator is in your project, your view controllers automatically have
     go.present(coordinator:coordinator)
 }
 ```
-A few things to note here. First of all, view controllers should not be interacting with coordinators beyond instantiating and passing to **go**. We don't even need to call `start()` here, since that is handled internally by our coordinators. The second is the introduction to `asAnyCoordinator()`. This method erases the concretion of our coordinator, as well as its generics, by wrapping it into **AnyCoordinator**. If you have no reason to maintain a concrete reference, you will most likely prefer **AnyCoordinator**, as it lets you store and interact with it in more abstract ways. Whenever you pass a coordinator to **go**, you must first erase concretion.
+A few things to note here. First of all, view controllers should not be interacting with coordinators beyond instantiating and passing to **go**. We don't even need to call `start()` here, since that is handled internally by our coordinators. The second is the introduction to `asAnyCoordinator()`. This method erases the concretion of our coordinator, as well as its generics, by wrapping it into **AnyCoordinator**. If you have no reason to maintain a concrete reference, you will most likely prefer **AnyCoordinator**, as it lets you store and interact with it in more abstract ways. Whenever you pass a coordinator to **go**, you must first erase concretion. Go ahead and add buttons to your xibs and bind them to your IBActions. Mine look like this:
+![My Xibs](/images/nib3.png)
+
+Now run your app. Tapping the buttons should now present and dismiss your new view.
