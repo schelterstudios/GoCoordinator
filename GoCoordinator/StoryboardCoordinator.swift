@@ -14,7 +14,7 @@ protocol StoryboardOwner {
     var storyboardName: String { get }
 }
 
-public class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
+open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
     
     var storyboardName: String {
         if ownerName != nil { return ownerName! }

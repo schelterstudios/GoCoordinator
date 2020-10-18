@@ -21,6 +21,7 @@
 		AAB901C6253BEB4100311307 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C4253BEB4100311307 /* Main.storyboard */; };
 		AAB901C8253BEB4500311307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C7253BEB4500311307 /* Assets.xcassets */; };
 		AAB901CB253BEB4500311307 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C9253BEB4500311307 /* LaunchScreen.storyboard */; };
+		AAB901EE253C121B00311307 /* MyStoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		AAB901C7253BEB4500311307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAB901CA253BEB4500311307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAB901CC253BEB4500311307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoryboardCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				AAB901C7253BEB4500311307 /* Assets.xcassets */,
 				AAB901C9253BEB4500311307 /* LaunchScreen.storyboard */,
 				AAB901CC253BEB4500311307 /* Info.plist */,
+				AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */,
 			);
 			path = GoCoordinatorExamples;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				AAB901C3253BEB4100311307 /* ViewController.swift in Sources */,
 				AAB901BF253BEB4100311307 /* AppDelegate.swift in Sources */,
 				AAB901C1253BEB4100311307 /* SceneDelegate.swift in Sources */,
+				AAB901EE253C121B00311307 /* MyStoryboardCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
