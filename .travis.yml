@@ -4,8 +4,8 @@ language: objective-c
 osx_image: xcode12
 env:
   matrix:
-    - TEST_SDK=iphonesimulator14.0 OS=14 NAME='iPhone 11'
-    - TEST_SDK=iphonesimulator14.0 OS=14 NAME='iPhone 8'
+    - TEST_SDK=iphonesimulator14.0 OS=14.0 NAME='iPhone 11'
+    - TEST_SDK=iphonesimulator14.0 OS=13.0 NAME='iPhone 8'
 
 script:
   - set -o pipefail && xcodebuild test -enableCodeCoverage YES -project GoCoordinator.xcodeproj -scheme GoCoordinator -sdk $TEST_SDK -destination "platform=iOS Simulator,OS=$OS,name=$NAME" ONLY_ACTIVE_ARCH=YES
