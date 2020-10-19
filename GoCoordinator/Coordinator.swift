@@ -13,6 +13,7 @@ import class UIKit.UITabBarController
 
 public enum CoordinatorError: Error {
     case navigationError
+    case missingImplementation(String)
 }
 
 public protocol CoordinatorNavigator: class {
@@ -75,15 +76,37 @@ public protocol CoordinatorParent: class {
 
 open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent {
     
-    lazy public var viewController = instantiateViewController()
+    private var _viewController: VC?
+    public var viewController: VC {
+        if _viewController == nil {
+            do {
+                _viewController = try instantiateViewController()
+            } catch NibCoordinatorError.missingNib(let name) {
+                print("COORDINATOR ERROR: Missing Nib named \(name)")
+            } catch StoryboardCoordinatorError.missingInitialViewController(let type) {
+                print("COORDINATOR ERROR: Missing Initial View Controller of type \(type)")
+            } catch StoryboardCoordinatorError.missingViewController(let type, let identifier) {
+                print("COORDINATOR ERROR: Missing View Controller of type \(type) with identifier \(identifier)")
+            } catch let err {
+                print("COORDINATOR ERROR: \(err.localizedDescription)")
+            }
+
+            // NOTE: throwing from getter is not supported. Instead, just return a placeholder
+            if _viewController == nil {
+                _viewController = VC()
+            }
+        }
+        return _viewController!
+    }
+    
     weak public var parent: CoordinatorParent?
     weak public var presenting: CoordinatorParent?
     
     private var pushedChild: AnyCoordinator?
     private var presentedChild: AnyCoordinator?
         
-    func instantiateViewController() -> VC {
-        fatalError("\(#function) not implemented!")
+    func instantiateViewController() throws -> VC {
+        throw CoordinatorError.missingImplementation(#function)
     }
     
     open func start() {
@@ -98,7 +121,6 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         if pushedChild != nil {
             popChild(animated: false)
         }
-        
         if let nc = viewController as? UINavigationController ?? viewController.navigationController {
             nc.pushViewController(coordinator.viewController, animated: true)
         } else {

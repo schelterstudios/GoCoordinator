@@ -15,7 +15,7 @@
 		AAB900AA253BAEC200311307 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A3253BAEC200311307 /* Coordinator.swift */; };
 		AAB900AB253BAEC200311307 /* NibCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A4253BAEC200311307 /* NibCoordinator.swift */; };
 		AAB900AC253BAEC200311307 /* ManualCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A5253BAEC200311307 /* ManualCoordinator.swift */; };
-		AAB901AE253BEAD800311307 /* GoCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901AD253BEAD800311307 /* GoCoordinatorTests.swift */; };
+		AAB901AE253BEAD800311307 /* CoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901AD253BEAD800311307 /* CoordinatorTests.swift */; };
 		AAB901B0253BEAD800311307 /* GoCoordinator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB90094253BAD9200311307 /* GoCoordinator.framework */; };
 		AAB901BF253BEB4100311307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901BE253BEB4100311307 /* AppDelegate.swift */; };
 		AAB901C1253BEB4100311307 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901C0253BEB4100311307 /* SceneDelegate.swift */; };
@@ -48,7 +48,7 @@
 		AAB900A4253BAEC200311307 /* NibCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibCoordinator.swift; sourceTree = "<group>"; };
 		AAB900A5253BAEC200311307 /* ManualCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManualCoordinator.swift; sourceTree = "<group>"; };
 		AAB901AB253BEAD800311307 /* GoCoordinatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GoCoordinatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAB901AD253BEAD800311307 /* GoCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoCoordinatorTests.swift; sourceTree = "<group>"; };
+		AAB901AD253BEAD800311307 /* CoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorTests.swift; sourceTree = "<group>"; };
 		AAB901AF253BEAD800311307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB901BC253BEB4100311307 /* GoCoordinatorExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCoordinatorExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB901BE253BEB4100311307 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */,
-				AAB901AD253BEAD800311307 /* GoCoordinatorTests.swift */,
+				AAB901AD253BEAD800311307 /* CoordinatorTests.swift */,
 				AAB901AF253BEAD800311307 /* Info.plist */,
 			);
 			path = GoCoordinatorTests;
@@ -300,7 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB901AE253BEAD800311307 /* GoCoordinatorTests.swift in Sources */,
+				AAB901AE253BEAD800311307 /* CoordinatorTests.swift in Sources */,
 				AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

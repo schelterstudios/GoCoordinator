@@ -8,6 +8,11 @@
 
 import Foundation
 import class UIKit.UIViewController
+import class UIKit.UINib
+
+enum NibCoordinatorError: Error {
+    case missingNib(String)
+}
 
 open class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
     
@@ -18,9 +23,12 @@ open class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
         viewController.viewDidLoad()
     }
     
-    override func instantiateViewController() -> VC {
-        let vc = VC()
+    override func instantiateViewController() throws -> VC {
         let nibName = NSStringFromClass(VC.self).components(separatedBy: ".").last!
+        guard Bundle.main.path(forResource: nibName, ofType: "nib") != nil else {
+            throw NibCoordinatorError.missingNib(nibName)
+        }
+        let vc = VC()
         Bundle.main.loadNibNamed(nibName, owner: vc, options: nil)
         return vc
     }

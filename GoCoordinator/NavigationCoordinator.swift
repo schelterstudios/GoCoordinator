@@ -21,7 +21,7 @@ open class NavigationCoordinator: CoordinatorBase<UINavigationController> {
         try! push(coordinator: root)
     }
     
-    override func instantiateViewController() -> UINavigationController {
+    override func instantiateViewController() throws -> UINavigationController {
         return UINavigationController()
     }
 }

@@ -14,6 +14,11 @@ public protocol StoryboardOwner {
     var storyboardName: String { get }
 }
 
+enum StoryboardCoordinatorError: Error {
+    case missingInitialViewController(String)
+    case missingViewController(String, String)
+}
+
 open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
     
     public var storyboardName: String {
@@ -39,12 +44,20 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
         self.identifier = nil
     }
     
-    override func instantiateViewController() -> VC {
+    override func instantiateViewController() throws -> VC {
         let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
         if let identifier = self.identifier {
-            return storyboard.instantiateViewController(withIdentifier: identifier) as! VC
+            let vc = storyboard.instantiateViewController(withIdentifier: identifier) as? VC
+            if vc == nil {
+                throw StoryboardCoordinatorError.missingViewController(NSStringFromClass(VC.self), identifier)
+            }
+            return vc!
         } else {
-            return storyboard.instantiateInitialViewController() as! VC
+            let vc = storyboard.instantiateInitialViewController() as? VC
+            if vc == nil {
+                throw StoryboardCoordinatorError.missingInitialViewController(NSStringFromClass(VC.self))
+            }
+            return vc!
         }
     }
 }
