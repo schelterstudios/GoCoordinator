@@ -112,10 +112,10 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     }
     
     public func popChild(animated: Bool) {
-        if let nc = viewController.navigationController {
-            nc.popToViewController(viewController, animated: animated)
-        } else if let nc = viewController as? UINavigationController {
+        if let nc = viewController as? UINavigationController {
             nc.popToRootViewController(animated: animated)
+        } else if let nc = viewController.navigationController {
+            nc.popToViewController(viewController, animated: animated)
         }
         pushedChild?.parent = nil
         pushedChild = nil
