@@ -19,6 +19,7 @@ public enum CoordinatorError: Error {
 public protocol CoordinatorNavigator: class {
     var parent: CoordinatorParent? { get set }
     var presenting: CoordinatorParent? { get set }
+    var allowDismissal: Bool { get set }
     
     func push(coordinator: AnyCoordinator) throws
     func popFromParent()
@@ -101,6 +102,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     
     weak public var parent: CoordinatorParent?
     weak public var presenting: CoordinatorParent?
+    public var allowDismissal: Bool = true
     
     private var pushedChild: AnyCoordinator?
     private var presentedChild: AnyCoordinator?
@@ -163,16 +165,17 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     }
     
     public func dismissPresented(animated: Bool, completion: ((Bool)->Void)?) {
+        if presentedChild?.allowDismissal == false {
+            completion?(false)
+            return
+        }
+        
         if let presented = viewController.presentedViewController {
-            if presented.shouldDismiss {
-                presented.dismiss(animated: animated) {
-                    completion?(true)
-                }
-                presentedChild?.parent = nil
-                presentedChild = nil
-            } else {
-                completion?(false)
+            presented.dismiss(animated: animated) {
+                completion?(true)
             }
+            presentedChild?.parent = nil
+            presentedChild = nil
         } else {
             presentedChild?.parent = nil
             presentedChild = nil
@@ -182,22 +185,6 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     
     public func dismiss(completion: ((Bool)->Void)?) {
         presenting?.dismissPresented(animated: true, completion: completion)
-    }
-}
-
-extension UIViewController {
-    @objc var shouldDismiss: Bool { return true }
-}
-
-extension UINavigationController {
-    @objc override var shouldDismiss: Bool {
-        return topViewController?.shouldDismiss ?? true
-    }
-}
-
-extension UITabBarController {
-    @objc override var shouldDismiss: Bool {
-        return selectedViewController?.shouldDismiss ?? true
     }
 }
 
@@ -215,11 +202,18 @@ public class AnyCoordinator: Coordinator {
         set { wrappedPresentingSetter(newValue) }
     }
     
+    public var allowDismissal: Bool {
+        get { wrappedAllowDismissalGetter() }
+        set { wrappedAllowDismissalSetter(newValue) }
+    }
+    
     private let wrappedVC: () -> UIViewController
     private let wrappedParentGetter: () -> CoordinatorParent?
     private let wrappedParentSetter: (CoordinatorParent?) -> Void
     private let wrappedPresentingGetter: () -> CoordinatorParent?
     private let wrappedPresentingSetter: (CoordinatorParent?) -> Void
+    private let wrappedAllowDismissalGetter: () -> Bool
+    private let wrappedAllowDismissalSetter: (Bool) -> Void
     private let wrappedStart: () -> Void
     private let wrappedPush: (AnyCoordinator) throws -> Void
     private let wrappedPopFromParent: () -> Void
@@ -232,6 +226,8 @@ public class AnyCoordinator: Coordinator {
         wrappedParentSetter = { coordinator.parent = $0 }
         wrappedPresentingGetter = { coordinator.presenting }
         wrappedPresentingSetter = { coordinator.presenting = $0 }
+        wrappedAllowDismissalGetter = { coordinator.allowDismissal }
+        wrappedAllowDismissalSetter = { coordinator.allowDismissal = $0 }
         wrappedStart = { coordinator.start() }
         wrappedPush = { try coordinator.push(coordinator:$0) }
         wrappedPopFromParent = { coordinator.popFromParent() }
