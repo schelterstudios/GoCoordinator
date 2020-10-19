@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA3CCD44253CED4F00CD706F /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */; };
+		AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */; };
 		AAB90099253BAD9200311307 /* GoCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB90097253BAD9200311307 /* GoCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB900A8253BAEC200311307 /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A1253BAEC200311307 /* StoryboardCoordinator.swift */; };
 		AAB900A9253BAEC200311307 /* UIViewController+Go.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A2253BAEC200311307 /* UIViewController+Go.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
+		AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableSubClasses.swift; sourceTree = "<group>"; };
 		AAB90094253BAD9200311307 /* GoCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB90097253BAD9200311307 /* GoCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoCoordinator.h; sourceTree = "<group>"; };
 		AAB90098253BAD9200311307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		AAB901AC253BEAD800311307 /* GoCoordinatorTests */ = {
 			isa = PBXGroup;
 			children = (
+				AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */,
 				AAB901AD253BEAD800311307 /* GoCoordinatorTests.swift */,
 				AAB901AF253BEAD800311307 /* Info.plist */,
 			);
@@ -298,6 +301,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB901AE253BEAD800311307 /* GoCoordinatorTests.swift in Sources */,
+				AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

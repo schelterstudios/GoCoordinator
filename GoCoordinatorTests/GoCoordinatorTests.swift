@@ -7,6 +7,8 @@
 
 import XCTest
 
+@testable import GoCoordinator
+
 class GoCoordinatorTests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -17,16 +19,26 @@ class GoCoordinatorTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testManualCoordinatorLifecycle() throws {
+        var strongVC: TestableViewController? = TestableViewController()
+        weak var weakVC = strongVC
+        
+        var tmc: TestableManualCoordinator? = TestableManualCoordinator(viewController:strongVC!)
+        tmc?.inputValue = 99
+        strongVC = nil
+        
+        // Verify view controller is still allocated, but not loaded
+        XCTAssertNotNil(weakVC)
+        XCTAssertNotEqual(weakVC?.loadedValue, 99)
+        
+        tmc?.start()
+        
+        // Verify view controller is loaded
+        XCTAssertEqual(weakVC?.loadedValue, 99)
+        
+        tmc = nil
+        
+        // Verify view controller is deallocated
+        XCTAssertNil(weakVC)
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-
 }
