@@ -82,7 +82,7 @@ extension UIViewController {
         get { return CoordinatorLinker.linker.anyCoordinatorForController(self)! }
     }
     
-    public func go<C:CoordinatorNavigator>(as type: C.Type) -> C! {
+    public func go<C:CoordinatorNavigator>(as type: C.Type) -> C {
         return CoordinatorLinker.linker.coordinatorForController(self)!
     }
 }
