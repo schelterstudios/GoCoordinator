@@ -13,11 +13,15 @@ open class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
     
     public override init() {}
     
+    open override func start() {
+        super.start()
+        viewController.viewDidLoad()
+    }
+    
     override func instantiateViewController() -> VC {
         let vc = VC()
         let nibName = NSStringFromClass(VC.self).components(separatedBy: ".").last!
         Bundle.main.loadNibNamed(nibName, owner: vc, options: nil)
-        DispatchQueue.main.async { vc.viewDidLoad() }
         return vc
     }
 }
