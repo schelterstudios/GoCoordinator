@@ -20,23 +20,27 @@ class CoordinatorTests: XCTestCase {
     }
 
     func testManualCoordinatorLifecycle() throws {
-        var strongVC: TestableViewController? = TestableViewController()
-        weak var weakVC = strongVC
+        weak var weakVC: TestableViewController?
         
-        var tmc: TestableManualCoordinator? = TestableManualCoordinator(viewController:strongVC!)
-        tmc?.inputValue = 99
-        strongVC = nil
-        
-        // Verify view controller is still allocated, but not loaded
-        XCTAssertNotNil(weakVC)
-        XCTAssertNotEqual(weakVC?.loadedValue, 99)
-        
-        tmc?.start()
-        
-        // Verify view controller is loaded
-        XCTAssertEqual(weakVC?.loadedValue, 99)
-        
-        tmc = nil
+        autoreleasepool {
+            var strongVC: TestableViewController? = TestableViewController()
+            weakVC = strongVC
+            
+            var tmc: TestableManualCoordinator? = TestableManualCoordinator(viewController:strongVC!)
+            tmc?.inputValue = 99
+            strongVC = nil
+            
+            // Verify view controller is still allocated, but not loaded
+            XCTAssertNotNil(weakVC)
+            XCTAssertNotEqual(weakVC?.loadedValue, 99)
+            
+            tmc?.start()
+            
+            // Verify view controller is loaded
+            XCTAssertEqual(weakVC?.loadedValue, 99)
+            
+            tmc = nil
+        }
         
         // Verify view controller is deallocated
         XCTAssertNil(weakVC)
@@ -47,21 +51,23 @@ class CoordinatorTests: XCTestCase {
         weak var weakVC1: UIViewController?
         weak var weakVC2: UIViewController?
         
-        var mc1: ManualCoordinator? = ManualCoordinator(block: block)
-        mc1?.start()
-        weakVC1 = mc1?.viewController
-        
-        var mc2: ManualCoordinator? = ManualCoordinator(block: block)
-        mc2?.start()
-        weakVC2 = mc2?.viewController
-        
-        // Verify view controllers instantiated via code block are unique
-        XCTAssertNotNil(weakVC1)
-        XCTAssertNotNil(weakVC2)
-        XCTAssertNotEqual(weakVC1, weakVC2)
-        
-        mc1 = nil
-        mc2 = nil
+        autoreleasepool {
+            var mc1: ManualCoordinator? = ManualCoordinator(block: block)
+            mc1?.start()
+            weakVC1 = mc1?.viewController
+            
+            var mc2: ManualCoordinator? = ManualCoordinator(block: block)
+            mc2?.start()
+            weakVC2 = mc2?.viewController
+            
+            // Verify view controllers instantiated via code block are unique
+            XCTAssertNotNil(weakVC1)
+            XCTAssertNotNil(weakVC2)
+            XCTAssertNotEqual(weakVC1, weakVC2)
+            
+            mc1 = nil
+            mc2 = nil
+        }
         
         // Verify view controllers are deallocated
         XCTAssertNil(weakVC1)
@@ -69,20 +75,24 @@ class CoordinatorTests: XCTestCase {
     }
     
     func testNibCoordinatorLifecycle() throws {
-        var tnc: TestableNibCoordinator? = TestableNibCoordinator()
-        weak var weakVC = tnc?.viewController
-        tnc?.inputValue = 89
+        weak var weakVC: TestableViewController?
         
-        // Verify view controller is still allocated, but not loaded
-        XCTAssertNotNil(weakVC)
-        XCTAssertNotEqual(weakVC?.loadedValue, 89)
-        
-        tnc?.start()
-        
-        // Verify view controller is loaded
-        XCTAssertEqual(weakVC?.loadedValue, 89)
-        
-        tnc = nil
+        autoreleasepool {
+            var tnc: TestableNibCoordinator? = TestableNibCoordinator()
+            weakVC = tnc?.viewController
+            tnc?.inputValue = 89
+            
+            // Verify view controller is still allocated, but not loaded
+            XCTAssertNotNil(weakVC)
+            XCTAssertNotEqual(weakVC?.loadedValue, 89)
+            
+            tnc?.start()
+            
+            // Verify view controller is loaded
+            XCTAssertEqual(weakVC?.loadedValue, 89)
+            
+            tnc = nil
+        }
         
         // Verify view controller is deallocated
         XCTAssertNil(weakVC)
