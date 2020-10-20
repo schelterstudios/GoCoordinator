@@ -21,9 +21,9 @@ enum StoryboardCoordinatorError: Error {
 
 open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
     
+    private var _storyboardName: String?
     public var storyboardName: String {
-        if ownerName != nil { return ownerName! }
-        
+        if let name = _storyboardName { return name }
         var name = NSStringFromClass(Self.self).components(separatedBy: ".").last!
         if let index = name.range(of: "Coordinator", options: [])?.lowerBound {
             name = String(name[..<index])
@@ -31,16 +31,20 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
         return name
     }
     
-    private let ownerName: String?
     private let identifier: String?
     
     public init(owner: StoryboardOwner, identifier: String) {
-        self.ownerName = owner.storyboardName
+        self._storyboardName = owner.storyboardName
+        self.identifier = identifier
+    }
+    
+    public init(storyboardName: String, identifier: String) {
+        self._storyboardName = storyboardName
         self.identifier = identifier
     }
     
     public override init() {
-        self.ownerName = nil
+        self._storyboardName = nil
         self.identifier = nil
     }
     
