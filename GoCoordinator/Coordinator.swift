@@ -21,35 +21,27 @@ public protocol CoordinatorNavigator: class {
     var presenting: CoordinatorParent? { get set }
     var allowDismissal: Bool { get set }
     
-    func push(coordinator: AnyCoordinator) throws
-    func popFromParent()
+    func push(coordinator: AnyCoordinator, animated: Bool) throws
+    func pop()
     func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?)
     func dismiss(completion: ((Bool)->Void)?)
 }
 
 public extension CoordinatorNavigator {
-    
-    func present(coordinator: AnyCoordinator) {
-        present(coordinator: coordinator, completion: nil)
-    }
-    
-    func pushOrPresent(coordinator: AnyCoordinator) {
+        
+    func pushOrPresent(coordinator: AnyCoordinator, animated: Bool = true) {
         do {
-            try push(coordinator: coordinator)
+            try push(coordinator: coordinator, animated: animated)
         } catch {
-            present(coordinator: coordinator)
+            present(coordinator: coordinator, completion: nil)
         }
-    }
-    
-    func dismiss() {
-        dismiss(completion: nil)
     }
     
     func popOrDismiss() {
         if parent != nil {
-            popFromParent()
+            pop()
         } else {
-            dismiss()
+            dismiss(completion: nil)
         }
     }
 }
@@ -102,7 +94,12 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     
     weak public var parent: CoordinatorParent?
     weak public var presenting: CoordinatorParent?
-    public var allowDismissal: Bool = true
+    
+    private var _allowDismissal = true
+    public var allowDismissal: Bool {
+        get { return (pushedChild?.allowDismissal != false) && _allowDismissal }
+        set { _allowDismissal = newValue }
+    }
     
     private var pushedChild: AnyCoordinator?
     private var presentedChild: AnyCoordinator?
@@ -119,12 +116,12 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         CoordinatorLinker.linker.unlinkCooordinatorFor(viewController)
     }
     
-    public func push(coordinator: AnyCoordinator) throws {
+    public func push(coordinator: AnyCoordinator, animated: Bool = true) throws {
         if pushedChild != nil {
             popChild(animated: false)
         }
         if let nc = viewController as? UINavigationController ?? viewController.navigationController {
-            nc.pushViewController(coordinator.viewController, animated: true)
+            nc.pushViewController(coordinator.viewController, animated: animated)
         } else {
             throw CoordinatorError.navigationError
         }
@@ -136,20 +133,23 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     }
     
     public func popChild(animated: Bool) {
-        if let nc = viewController as? UINavigationController {
-            nc.popToRootViewController(animated: animated)
-        } else if let nc = viewController.navigationController {
+        if viewController is UINavigationController {
+            // NOTE: Navigation controller can't pop its child because it's root!
+            return
+        }
+        
+        if let nc = viewController.navigationController {
             nc.popToViewController(viewController, animated: animated)
         }
         pushedChild?.parent = nil
         pushedChild = nil
     }
     
-    public func popFromParent() {
+    public func pop() {
         parent?.popChild(animated: true)
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?) {
+    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)? = nil) {
         dismissPresented(animated: true) { [weak self] success in
             if success {
                 self?.viewController.present(coordinator.viewController, animated: true) {
@@ -183,7 +183,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         }
     }
     
-    public func dismiss(completion: ((Bool)->Void)?) {
+    public func dismiss(completion: ((Bool)->Void)? = nil) {
         presenting?.dismissPresented(animated: true, completion: completion)
     }
 }
@@ -215,8 +215,8 @@ public class AnyCoordinator: Coordinator {
     private let wrappedAllowDismissalGetter: () -> Bool
     private let wrappedAllowDismissalSetter: (Bool) -> Void
     private let wrappedStart: () -> Void
-    private let wrappedPush: (AnyCoordinator) throws -> Void
-    private let wrappedPopFromParent: () -> Void
+    private let wrappedPush: (AnyCoordinator, Bool) throws -> Void
+    private let wrappedPop: () -> Void
     private let wrappedPresent: (AnyCoordinator, ((Bool)->Void)?) -> Void
     private let wrappedDismiss: (((Bool)->Void)?) -> Void
     
@@ -229,8 +229,8 @@ public class AnyCoordinator: Coordinator {
         wrappedAllowDismissalGetter = { coordinator.allowDismissal }
         wrappedAllowDismissalSetter = { coordinator.allowDismissal = $0 }
         wrappedStart = { coordinator.start() }
-        wrappedPush = { try coordinator.push(coordinator:$0) }
-        wrappedPopFromParent = { coordinator.popFromParent() }
+        wrappedPush = { try coordinator.push(coordinator:$0, animated:$1) }
+        wrappedPop = { coordinator.pop() }
         wrappedPresent = { coordinator.present(coordinator:$0, completion: $1) }
         wrappedDismiss = { coordinator.dismiss(completion: $0) }
     }
@@ -239,19 +239,19 @@ public class AnyCoordinator: Coordinator {
         wrappedStart()
     }
     
-    public func push(coordinator: AnyCoordinator) throws {
-        try wrappedPush(coordinator)
+    public func push(coordinator: AnyCoordinator, animated: Bool = true) throws {
+        try wrappedPush(coordinator, animated)
     }
     
-    public func popFromParent() {
-        wrappedPopFromParent()
+    public func pop() {
+        wrappedPop()
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?) {
+    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)? = nil) {
         wrappedPresent(coordinator, completion)
     }
     
-    public func dismiss(completion: ((Bool)->Void)?) {
+    public func dismiss(completion: ((Bool)->Void)? = nil) {
         wrappedDismiss(completion)
     }
 }
