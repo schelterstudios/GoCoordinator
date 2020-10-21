@@ -21,8 +21,8 @@ open class ManualCoordinator: CoordinatorBase<UIViewController> {
         self.block = { viewController }
     }
     
-    open override func start() {
-        super.start()
+    open override func start() throws {
+        try super.start()
         viewController.viewDidLoad()
     }
     

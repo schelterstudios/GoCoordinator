@@ -15,8 +15,10 @@ public protocol StoryboardOwner {
 }
 
 enum StoryboardCoordinatorError: Error {
-    case missingInitialViewController(String)
-    case missingViewController(String, String)
+    case missingStoryboard(String)
+    case missingInitialViewController
+    case missingViewControllerIdentifier(String)
+    case wrongViewControllerType(String)
 }
 
 open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
@@ -49,19 +51,32 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
     }
     
     override func instantiateViewController() throws -> VC {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: Bundle(for: Self.self))
-        if let identifier = self.identifier {
-            let vc = storyboard.instantiateViewController(withIdentifier: identifier) as? VC
-            if vc == nil {
-                throw StoryboardCoordinatorError.missingViewController(NSStringFromClass(VC.self), identifier)
-            }
-            return vc!
-        } else {
-            let vc = storyboard.instantiateInitialViewController() as? VC
-            if vc == nil {
-                throw StoryboardCoordinatorError.missingInitialViewController(NSStringFromClass(VC.self))
-            }
-            return vc!
+        let bundle = Bundle(for: Self.self)
+        guard bundle.path(forResource: storyboardName, ofType: "storyboardc") != nil else {
+            throw StoryboardCoordinatorError.missingStoryboard(storyboardName)
         }
+        
+        var vc: VC!
+        let storyboard = UIStoryboard(name: storyboardName, bundle: bundle)
+        if let identifier = self.identifier {
+            
+            if let idMap = storyboard.value(forKey: "identifierToNibNameMap") as? [String: Any],
+               let _ = idMap[identifier] {
+                vc = storyboard.instantiateViewController(withIdentifier: identifier) as? VC
+                if vc == nil {
+                    throw StoryboardCoordinatorError.wrongViewControllerType(identifier)
+                }
+            } else {
+                throw StoryboardCoordinatorError.missingViewControllerIdentifier(identifier)
+            }
+            
+        } else {
+            vc = storyboard.instantiateInitialViewController() as? VC
+            if vc == nil {
+                throw StoryboardCoordinatorError.missingInitialViewController
+            }
+        }
+        
+        return vc
     }
 }

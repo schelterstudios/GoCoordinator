@@ -11,6 +11,7 @@ import UIKit
 
 class TestableViewController: UIViewController {
     
+    @IBInspectable var inspectableValue: Int = -1
     var inputValue: Int = -1
     var loadedValue: Int = -1
     
@@ -24,9 +25,9 @@ class TestableManualCoordinator: ManualCoordinator {
     
     var inputValue: Int = -1
     
-    override func start() {
+    override func start() throws {
         (viewController as? TestableViewController)?.inputValue = inputValue
-        super.start()
+        try super.start()
     }
 }
 
@@ -34,9 +35,9 @@ class TestableNibCoordinator: NibCoordinator<TestableViewController> {
     
     var inputValue: Int = -1
     
-    override func start() {
+    override func start() throws {
         viewController.inputValue = inputValue
-        super.start()
+        try super.start()
     }
 }
 
@@ -44,9 +45,9 @@ class TestableStoryboardCoordinator: StoryboardCoordinator<UINavigationControlle
     
     var inputValue: Int = -1
     
-    override func start() {
+    override func start() throws {
         (viewController.topViewController as? TestableViewController)?.inputValue = inputValue
-        super.start()
+        try super.start()
     }
 }
 
@@ -54,8 +55,8 @@ class TestableStoryboardSubCoordinator: StoryboardCoordinator<TestableViewContro
     
     var inputValue: Int = -1
     
-    override func start() {
+    override func start() throws {
         viewController.inputValue = inputValue
-        super.start()
+        try super.start()
     }
 }

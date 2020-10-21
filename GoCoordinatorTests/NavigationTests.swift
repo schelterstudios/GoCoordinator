@@ -36,7 +36,7 @@ class NavigationTests: XCTestCase {
             weakC3 = strongC3
             weakC4 = strongC4
             nc = NavigationCoordinator(root: strongC1!.asAnyCoordinator())
-            nc.start()
+            XCTAssertNoThrow(try nc.start())
             
             // Verify that only c1 is in the stack
             XCTAssert(weakC1?.parent === nc)
@@ -44,9 +44,9 @@ class NavigationTests: XCTestCase {
             XCTAssertNil(weakC3?.parent)
             XCTAssertNil(weakC4?.parent)
             
-            try? weakC1?.push(coordinator: strongC2!.asAnyCoordinator(), animated: false)
-            try? weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false)
-            try? weakC3?.push(coordinator: strongC4!.asAnyCoordinator(), animated: false)
+            XCTAssertNoThrow(try weakC1?.push(coordinator: strongC2!.asAnyCoordinator(), animated: false))
+            XCTAssertNoThrow(try weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false))
+            XCTAssertNoThrow(try weakC3?.push(coordinator: strongC4!.asAnyCoordinator(), animated: false))
             
             // Verify that c2, c3, and c4 are now in the stack
             XCTAssert(weakC1?.parent === nc)
@@ -97,16 +97,16 @@ class NavigationTests: XCTestCase {
         weakC1 = strongC1
         weakC2 = strongC2
         weakC3 = strongC3
-        tsc.start()
-        try? tsc?.push(coordinator: strongC1!.asAnyCoordinator(), animated: false)
+        XCTAssertNoThrow(try tsc.start())
+        XCTAssertNoThrow(try tsc?.push(coordinator: strongC1!.asAnyCoordinator(), animated: false))
         
         // Verify that only c1 is in the stack
         XCTAssert(weakC1?.parent === tsc)
         XCTAssertNil(weakC2?.parent)
         XCTAssertNil(weakC3?.parent)
         
-        try? weakC1?.push(coordinator: strongC2!.asAnyCoordinator(), animated: false)
-        try? weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false)
+        XCTAssertNoThrow(try weakC1?.push(coordinator: strongC2!.asAnyCoordinator(), animated: false))
+        XCTAssertNoThrow(try weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false))
         
         // Verify that c2, c3, and c4 are now in the stack
         XCTAssert(weakC1?.parent === tsc)

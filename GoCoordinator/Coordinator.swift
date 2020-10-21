@@ -12,8 +12,9 @@ import class UIKit.UINavigationController
 import class UIKit.UITabBarController
 
 public enum CoordinatorError: Error {
-    case navigationError
+    case missingNavigation
     case missingImplementation(String)
+    case dismissalRejected
 }
 
 public protocol CoordinatorNavigator: class {
@@ -23,8 +24,8 @@ public protocol CoordinatorNavigator: class {
     
     func push(coordinator: AnyCoordinator, animated: Bool) throws
     func pop()
-    func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?)
-    func dismiss(completion: ((Bool)->Void)?)
+    func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?)
+    func dismiss(completion: ((Error?)->Void)?)
 }
 
 public extension CoordinatorNavigator {
@@ -33,19 +34,22 @@ public extension CoordinatorNavigator {
         present(coordinator: coordinator, completion: nil)
     }
     
-    func pushOrPresent(coordinator: AnyCoordinator, animated: Bool = true) {
+    func pushOrPresent(coordinator: AnyCoordinator, animated: Bool = true,
+                       completion: ((Error?)->Void)? = nil) {
         do {
             try push(coordinator: coordinator, animated: animated)
+            completion?(nil)
         } catch {
-            present(coordinator: coordinator)
+            present(coordinator: coordinator, completion: completion)
         }
     }
     
-    func popOrDismiss() {
+    func popOrDismiss(completion: ((Error?)->Void)? = nil) {
         if parent != nil {
             pop()
+            completion?(nil)
         } else {
-            dismiss(completion: nil)
+            dismiss(completion: completion)
         }
     }
 }
@@ -57,7 +61,7 @@ public protocol CoordinatorAbstractor: class {
 public protocol Coordinator: CoordinatorNavigator, CoordinatorAbstractor {
     associatedtype VC: UIViewController
     var viewController: VC { get }
-    func start()
+    func start() throws
 }
 
 public extension Coordinator {
@@ -68,7 +72,7 @@ public extension Coordinator {
 
 public protocol CoordinatorParent: class {
     func popChild(animated: Bool)
-    func dismissPresented(animated: Bool, completion: ((Bool)->Void)?)
+    func dismissPresented(animated: Bool, completion: ((Error?)->Void)?)
 }
 
 open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent {
@@ -78,14 +82,8 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         if _viewController == nil {
             do {
                 _viewController = try instantiateViewController()
-            } catch NibCoordinatorError.missingNib(let name) {
-                print("COORDINATOR ERROR: Missing Nib named \(name)")
-            } catch StoryboardCoordinatorError.missingInitialViewController(let type) {
-                print("COORDINATOR ERROR: Missing Initial View Controller of type \(type)")
-            } catch StoryboardCoordinatorError.missingViewController(let type, let identifier) {
-                print("COORDINATOR ERROR: Missing View Controller of type \(type) with identifier \(identifier)")
             } catch let err {
-                print("COORDINATOR ERROR: \(err.localizedDescription)")
+                instantiationError = err
             }
 
             // NOTE: throwing from getter is not supported. Instead, just return a placeholder
@@ -95,6 +93,8 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         }
         return _viewController!
     }
+    
+    private var instantiationError: Error?
     
     weak public var parent: CoordinatorParent?
     weak public var presenting: CoordinatorParent?
@@ -112,8 +112,11 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         throw CoordinatorError.missingImplementation(#function)
     }
     
-    open func start() {
+    open func start() throws {
         CoordinatorLinker.linker.linkCoordinator(self, for: viewController)
+        if let error = instantiationError {
+            throw error
+        }
     }
     
     deinit {
@@ -127,13 +130,13 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         if let nc = viewController as? UINavigationController ?? viewController.navigationController {
             nc.pushViewController(coordinator.viewController, animated: animated)
         } else {
-            throw CoordinatorError.navigationError
+            throw CoordinatorError.missingNavigation
         }
         
         coordinator.parent = self
         coordinator.presenting = self.presenting
         pushedChild = coordinator
-        coordinator.start()
+        try coordinator.start()
     }
     
     public func popChild(animated: Bool) {
@@ -153,41 +156,47 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         parent?.popChild(animated: true)
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?) {
-        dismissPresented(animated: true) { [weak self] success in
-            if success {
-                self?.viewController.present(coordinator.viewController, animated: true) {
-                    completion?(true)
-                }
-                coordinator.presenting = self
-                self?.presentedChild = coordinator
-                coordinator.start()
-            } else {
-                completion?(false)
+    public func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
+        dismissPresented(animated: true) { [weak self] e in
+            if let err = e {
+                completion?(err)
+                return
+            }
+            
+            var throwing: Error?
+            self?.viewController.present(coordinator.viewController, animated: true) {
+                completion?(throwing)
+            }
+            coordinator.presenting = self
+            self?.presentedChild = coordinator
+            do {
+                try coordinator.start()
+            } catch let err {
+                throwing = err
             }
         }
     }
     
-    public func dismissPresented(animated: Bool, completion: ((Bool)->Void)?) {
+    public func dismissPresented(animated: Bool, completion: ((Error?)->Void)?) {
         if presentedChild?.allowDismissal == false {
-            completion?(false)
+            completion?(CoordinatorError.dismissalRejected)
             return
         }
         
         if let presented = viewController.presentedViewController {
             presented.dismiss(animated: animated) {
-                completion?(true)
+                completion?(nil)
             }
             presentedChild?.parent = nil
             presentedChild = nil
         } else {
             presentedChild?.parent = nil
             presentedChild = nil
-            completion?(true)
+            completion?(nil)
         }
     }
     
-    public func dismiss(completion: ((Bool)->Void)? = nil) {
+    public func dismiss(completion: ((Error?)->Void)? = nil) {
         presenting?.dismissPresented(animated: true, completion: completion)
     }
 }
@@ -218,11 +227,11 @@ public class AnyCoordinator: Coordinator {
     private let wrappedPresentingSetter: (CoordinatorParent?) -> Void
     private let wrappedAllowDismissalGetter: () -> Bool
     private let wrappedAllowDismissalSetter: (Bool) -> Void
-    private let wrappedStart: () -> Void
+    private let wrappedStart: () throws -> Void
     private let wrappedPush: (AnyCoordinator, Bool) throws -> Void
     private let wrappedPop: () -> Void
-    private let wrappedPresent: (AnyCoordinator, ((Bool)->Void)?) -> Void
-    private let wrappedDismiss: (((Bool)->Void)?) -> Void
+    private let wrappedPresent: (AnyCoordinator, ((Error?)->Void)?) -> Void
+    private let wrappedDismiss: (((Error?)->Void)?) -> Void
     
     init<C: Coordinator>(_ coordinator: C) {
         wrappedVC = { coordinator.viewController }
@@ -232,15 +241,15 @@ public class AnyCoordinator: Coordinator {
         wrappedPresentingSetter = { coordinator.presenting = $0 }
         wrappedAllowDismissalGetter = { coordinator.allowDismissal }
         wrappedAllowDismissalSetter = { coordinator.allowDismissal = $0 }
-        wrappedStart = { coordinator.start() }
+        wrappedStart = { try coordinator.start() }
         wrappedPush = { try coordinator.push(coordinator:$0, animated:$1) }
         wrappedPop = { coordinator.pop() }
         wrappedPresent = { coordinator.present(coordinator:$0, completion: $1) }
         wrappedDismiss = { coordinator.dismiss(completion: $0) }
     }
     
-    public func start() {
-        wrappedStart()
+    public func start() throws {
+        try wrappedStart()
     }
     
     public func push(coordinator: AnyCoordinator, animated: Bool = true) throws {
@@ -251,11 +260,11 @@ public class AnyCoordinator: Coordinator {
         wrappedPop()
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?) {
+    public func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
         wrappedPresent(coordinator, completion)
     }
     
-    public func dismiss(completion: ((Bool)->Void)? = nil) {
+    public func dismiss(completion: ((Error?)->Void)? = nil) {
         wrappedDismiss(completion)
     }
 }

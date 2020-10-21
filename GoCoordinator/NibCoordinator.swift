@@ -18,18 +18,19 @@ open class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
     
     public override init() {}
     
-    open override func start() {
-        super.start()
+    open override func start() throws {
+        try super.start()
         viewController.viewDidLoad()
     }
     
     override func instantiateViewController() throws -> VC {
+        let bundle = Bundle(for: VC.self)
         let nibName = NSStringFromClass(VC.self).components(separatedBy: ".").last!
-        guard Bundle.main.path(forResource: nibName, ofType: "nib") != nil else {
+        guard bundle.path(forResource: nibName, ofType: "nib") != nil else {
             throw NibCoordinatorError.missingNib(nibName)
         }
         let vc = VC()
-        Bundle.main.loadNibNamed(nibName, owner: vc, options: nil)
+        bundle.loadNibNamed(nibName, owner: vc, options: nil)
         return vc
     }
 }

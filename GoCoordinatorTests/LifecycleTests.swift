@@ -22,7 +22,7 @@ class LifecycleTests: XCTestCase {
     func testManualCoordinatorLifecycle() throws {
         weak var weakVC: TestableViewController?
         
-        autoreleasepool {
+        try autoreleasepool {
             var strongVC: TestableViewController? = TestableViewController()
             weakVC = strongVC
             
@@ -34,7 +34,7 @@ class LifecycleTests: XCTestCase {
             XCTAssertNotNil(weakVC)
             XCTAssertNotEqual(weakVC?.loadedValue, 99)
             
-            tmc?.start()
+            XCTAssertNoThrow(try tmc?.start())
             
             // Verify view controller is loaded
             XCTAssertEqual(weakVC?.loadedValue, 99)
@@ -51,13 +51,13 @@ class LifecycleTests: XCTestCase {
         weak var weakVC1: UIViewController?
         weak var weakVC2: UIViewController?
         
-        autoreleasepool {
+        try autoreleasepool {
             var mc1: ManualCoordinator? = ManualCoordinator(block: block)
-            mc1?.start()
+            XCTAssertNoThrow(try mc1?.start())
             weakVC1 = mc1?.viewController
             
             var mc2: ManualCoordinator? = ManualCoordinator(block: block)
-            mc2?.start()
+            XCTAssertNoThrow(try mc2?.start())
             weakVC2 = mc2?.viewController
             
             // Verify view controllers instantiated via code block are unique
@@ -77,7 +77,7 @@ class LifecycleTests: XCTestCase {
     func testNibCoordinatorLifecycle() throws {
         weak var weakVC: TestableViewController?
         
-        autoreleasepool {
+        try autoreleasepool {
             var tnc: TestableNibCoordinator? = TestableNibCoordinator()
             weakVC = tnc?.viewController
             tnc?.inputValue = 89
@@ -86,7 +86,7 @@ class LifecycleTests: XCTestCase {
             XCTAssertNotNil(weakVC)
             XCTAssertNotEqual(weakVC?.loadedValue, 89)
             
-            tnc?.start()
+            XCTAssertNoThrow(try tnc?.start())
             
             // Verify view controller is loaded
             XCTAssertEqual(weakVC?.loadedValue, 89)
@@ -98,11 +98,19 @@ class LifecycleTests: XCTestCase {
         XCTAssertNil(weakVC)
     }
     
+    func testNibCoordinatorError() throws {
+        let nc1 = NibCoordinator<TestableViewController>()
+        let nc2 = NibCoordinator<UIViewController>()
+        
+        XCTAssertNoThrow(try nc1.start())
+        XCTAssertThrowsError(try nc2.start())
+    }
+    
     func testStoryboardCoordinatorLifecycle() throws {
         weak var weakVC1: TestableViewController?
         weak var weakVC2: TestableViewController?
         
-        autoreleasepool {
+        try autoreleasepool {
             var sbc1: TestableStoryboardCoordinator? = TestableStoryboardCoordinator()
             weakVC1 = sbc1?.viewController.topViewController as? TestableViewController
             sbc1?.inputValue = 72
@@ -117,9 +125,9 @@ class LifecycleTests: XCTestCase {
             XCTAssertNotEqual(weakVC1?.loadedValue, 72)
             XCTAssertNotEqual(weakVC2?.loadedValue, 73)
             
-            sbc1?.start()
+            XCTAssertNoThrow(try sbc1?.start())
             weakVC1?.viewDidLoad()
-            sbc2?.start()
+            XCTAssertNoThrow(try sbc2?.start())
             weakVC2?.viewDidLoad()
             
             // Verify view controllers are loaded
@@ -135,6 +143,33 @@ class LifecycleTests: XCTestCase {
         XCTAssertNil(weakVC2)
     }
     
+    func testStoryboardCoordinatorErrors() throws {
+        let sbc1 = StoryboardCoordinator<UINavigationController>()
+        let sbc2 = TestableStoryboardCoordinator(storyboardName: "WrongName", identifier: "wrongID")
+        
+        let sbc3 = TestableStoryboardCoordinator()
+        let tvc3 = sbc3.viewController.topViewController as? TestableViewController
+        
+        let sbc4 = TestableStoryboardSubCoordinator(owner: sbc3, identifier: "wrongID")
+        let tvc4 = sbc4.viewController
+        
+        let sbc5 = TestableStoryboardSubCoordinator(owner: sbc3, identifier: "child")
+        let tvc5 = sbc5.viewController
+        
+        // Verify sbc1 and sbc2 have no root controllers (due to missing storyboard)
+        XCTAssertNil(sbc1.viewController.topViewController)
+        XCTAssertNil(sbc2.viewController.topViewController)
+        
+        // Verify sbc3 has correct root
+        XCTAssertEqual(tvc3?.inspectableValue, 10)
+        
+        // Verify sbc4 failed (has placeholder)
+        XCTAssertNotEqual(tvc4.inspectableValue, 20)
+        
+        // Verify sbc5 has correct controller
+        XCTAssertEqual(tvc5.inspectableValue, 20)
+    }
+    
     func testNavigatonCoordinatorLifecycle() throws {
         weak var weakNibC1: TestableNibCoordinator?
         weak var weakNibC2: TestableNibCoordinator?
@@ -142,7 +177,7 @@ class LifecycleTests: XCTestCase {
         weak var weakVC2: TestableViewController?
         weak var weakNavC: NavigationCoordinator?
         
-        autoreleasepool {
+        try autoreleasepool {
             var strongNibC1: TestableNibCoordinator? = TestableNibCoordinator()
             var strongNibC2: TestableNibCoordinator? = TestableNibCoordinator()
             weakNibC1 = strongNibC1
@@ -164,14 +199,14 @@ class LifecycleTests: XCTestCase {
             XCTAssertNil(weakVC1?.navigationController)
         
             // Start NavC
-            strongNavC?.start()
+            XCTAssertNoThrow(try strongNavC?.start())
         
             // Verify view controller is loaded and added to navigation
             XCTAssertEqual(weakVC1?.loadedValue, 70)
             XCTAssertNotNil(weakVC1?.navigationController)
         
             // Push NibC2 to NavC
-            try? weakVC1?.go.push(coordinator: strongNibC2!.asAnyCoordinator())
+            XCTAssertNoThrow(try weakVC1?.go.push(coordinator: strongNibC2!.asAnyCoordinator()))
             strongNibC2 = nil
                         
             // Verify view controller 2 is loaded and added to navigation

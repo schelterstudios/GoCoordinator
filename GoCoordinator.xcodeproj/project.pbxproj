@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA0108E7253FA49800FA8360 /* TestableStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */; };
+		AA0109782540BA5D00FA8360 /* TestableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0109772540BA5C00FA8360 /* TestableViewController.xib */; };
 		AA3CCD44253CED4F00CD706F /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */; };
 		AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */; };
 		AA78A634253F534C00E84996 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA78A633253F534C00E84996 /* NavigationTests.swift */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestableStoryboard.storyboard; sourceTree = "<group>"; };
+		AA0109772540BA5C00FA8360 /* TestableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestableViewController.xib; sourceTree = "<group>"; };
 		AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
 		AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableSubClasses.swift; sourceTree = "<group>"; };
 		AA78A633253F534C00E84996 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 		AAB901AC253BEAD800311307 /* GoCoordinatorTests */ = {
 			isa = PBXGroup;
 			children = (
+				AA0109772540BA5C00FA8360 /* TestableViewController.xib */,
 				AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */,
 				AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */,
 				AAB901AD253BEAD800311307 /* LifecycleTests.swift */,
@@ -273,6 +276,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA0109782540BA5D00FA8360 /* TestableViewController.xib in Resources */,
 				AA0108E7253FA49800FA8360 /* TestableStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
