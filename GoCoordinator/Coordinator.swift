@@ -159,12 +159,18 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     public func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
         dismissPresented(animated: true) { [weak self] e in
             if let err = e {
+                if completion == nil {
+                    fatalError("Unhandled Error: \(err)")
+                }
                 completion?(err)
                 return
             }
             
             var throwing: Error?
             self?.viewController.present(coordinator.viewController, animated: true) {
+                if completion == nil && throwing != nil {
+                    fatalError("Unhandled Error: \(throwing!)")
+                }
                 completion?(throwing)
             }
             coordinator.presenting = self
@@ -179,6 +185,10 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     
     public func dismissPresented(animated: Bool, completion: ((Error?)->Void)?) {
         if presentedChild?.allowDismissal == false {
+            // NOTE: Dismissal rejection is non-fatal
+            // if completion == nil {
+            //    fatalError("Unhandled Error: \(CoordinatorError.dismissalRejected)")
+            // }
             completion?(CoordinatorError.dismissalRejected)
             return
         }

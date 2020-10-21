@@ -159,15 +159,20 @@ class LifecycleTests: XCTestCase {
         // Verify sbc1 and sbc2 have no root controllers (due to missing storyboard)
         XCTAssertNil(sbc1.viewController.topViewController)
         XCTAssertNil(sbc2.viewController.topViewController)
+        XCTAssertThrowsError(try sbc1.start())
+        XCTAssertThrowsError(try sbc2.start())
         
         // Verify sbc3 has correct root
         XCTAssertEqual(tvc3?.inspectableValue, 10)
+        XCTAssertNoThrow(try sbc3.start())
         
         // Verify sbc4 failed (has placeholder)
         XCTAssertNotEqual(tvc4.inspectableValue, 20)
+        XCTAssertThrowsError(try sbc4.start())
         
         // Verify sbc5 has correct controller
         XCTAssertEqual(tvc5.inspectableValue, 20)
+        XCTAssertNoThrow(try sbc5.start())
     }
     
     func testNavigatonCoordinatorLifecycle() throws {
