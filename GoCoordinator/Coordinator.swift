@@ -29,11 +29,15 @@ public protocol CoordinatorNavigator: class {
 
 public extension CoordinatorNavigator {
         
+    func present(coordinator: AnyCoordinator) {
+        present(coordinator: coordinator, completion: nil)
+    }
+    
     func pushOrPresent(coordinator: AnyCoordinator, animated: Bool = true) {
         do {
             try push(coordinator: coordinator, animated: animated)
         } catch {
-            present(coordinator: coordinator, completion: nil)
+            present(coordinator: coordinator)
         }
     }
     
@@ -149,7 +153,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         parent?.popChild(animated: true)
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)? = nil) {
+    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?) {
         dismissPresented(animated: true) { [weak self] success in
             if success {
                 self?.viewController.present(coordinator.viewController, animated: true) {
@@ -247,7 +251,7 @@ public class AnyCoordinator: Coordinator {
         wrappedPop()
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)? = nil) {
+    public func present(coordinator: AnyCoordinator, completion: ((Bool)->Void)?) {
         wrappedPresent(coordinator, completion)
     }
     
