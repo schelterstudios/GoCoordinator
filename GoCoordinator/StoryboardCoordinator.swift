@@ -49,7 +49,7 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
     }
     
     override func instantiateViewController() throws -> VC {
-        let storyboard = UIStoryboard(name: storyboardName, bundle: nil)
+        let storyboard = UIStoryboard(name: storyboardName, bundle: Bundle(for: Self.self))
         if let identifier = self.identifier {
             let vc = storyboard.instantiateViewController(withIdentifier: identifier) as? VC
             if vc == nil {

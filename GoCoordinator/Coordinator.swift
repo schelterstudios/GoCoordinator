@@ -133,12 +133,12 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     }
     
     public func popChild(animated: Bool) {
-        if viewController is UINavigationController {
+        if let nc = viewController as? UINavigationController {
             // NOTE: Navigation controller can't pop its child because it's root!
-            return
-        }
+            if pushedChild?.viewController == nc.viewControllers.first { return }
+            else { nc.popToRootViewController(animated: animated) }
         
-        if let nc = viewController.navigationController {
+        } else if let nc = viewController.navigationController {
             nc.popToViewController(viewController, animated: animated)
         }
         pushedChild?.parent = nil

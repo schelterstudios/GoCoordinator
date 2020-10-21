@@ -1,5 +1,5 @@
 //
-//  CoordinatorTests.swift
+//  LifecycleTests.swift
 //  GoCoordinatorTests
 //
 //  Created by Steve Schelter on 10/17/20.
@@ -9,7 +9,7 @@ import XCTest
 
 @testable import GoCoordinator
 
-class CoordinatorTests: XCTestCase {
+class LifecycleTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -92,6 +92,31 @@ class CoordinatorTests: XCTestCase {
             XCTAssertEqual(weakVC?.loadedValue, 89)
             
             tnc = nil
+        }
+        
+        // Verify view controller is deallocated
+        XCTAssertNil(weakVC)
+    }
+    
+    func testStoryboardCoordinatorLifecycle() throws {
+        weak var weakVC: TestableViewController?
+        
+        autoreleasepool {
+            var tsc: TestableStoryboardCoordinator? = TestableStoryboardCoordinator()
+            weakVC = tsc?.viewController.topViewController as? TestableViewController
+            tsc?.inputValue = 79
+            
+            // Verify view controller is still allocated, but not loaded
+            XCTAssertNotNil(weakVC)
+            XCTAssertNotEqual(weakVC?.loadedValue, 79)
+            
+            tsc?.start()
+            weakVC?.viewDidLoad()
+            
+            // Verify view controller is loaded
+            XCTAssertEqual(weakVC?.loadedValue, 79)
+            
+            tsc = nil
         }
         
         // Verify view controller is deallocated

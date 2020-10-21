@@ -18,10 +18,6 @@ class TestableViewController: UIViewController {
         super.viewDidLoad()
         loadedValue = inputValue
     }
-    
-    deinit {
-        print("TVC Deinit")
-    }
 }
 
 class TestableManualCoordinator: ManualCoordinator {
@@ -42,8 +38,14 @@ class TestableNibCoordinator: NibCoordinator<TestableViewController> {
         viewController.inputValue = inputValue
         super.start()
     }
+}
+
+class TestableStoryboardCoordinator: StoryboardCoordinator<UINavigationController> {
     
-    deinit {
-        print("TNC Deinit")
+    var inputValue: Int = -1
+    
+    override func start() {
+        (viewController.topViewController as? TestableViewController)?.inputValue = inputValue
+        super.start()
     }
 }
