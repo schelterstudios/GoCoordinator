@@ -49,3 +49,13 @@ class TestableStoryboardCoordinator: StoryboardCoordinator<UINavigationControlle
         super.start()
     }
 }
+
+class TestableStoryboardSubCoordinator: StoryboardCoordinator<TestableViewController> {
+    
+    var inputValue: Int = -1
+    
+    override func start() {
+        viewController.inputValue = inputValue
+        super.start()
+    }
+}

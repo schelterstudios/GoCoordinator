@@ -41,6 +41,22 @@
             </objects>
             <point key="canvasLocation" x="236" y="94"/>
         </scene>
+        <!--Testable View Controller-->
+        <scene sceneID="Xhi-ye-LJt">
+            <objects>
+                <viewController storyboardIdentifier="child" id="Mqw-Nx-spp" customClass="TestableViewController" customModule="GoCoordinatorTests" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="yN6-u4-Zcm">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="YeT-Ti-qe4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="MGf-gK-4oF"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GeV-ox-fhN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1055" y="94"/>
+        </scene>
     </scenes>
     <resources>
         <systemColor name="systemBackgroundColor">

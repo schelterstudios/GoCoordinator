@@ -83,4 +83,57 @@ class NavigationTests: XCTestCase {
         XCTAssertNil(weakC3?.parent)
         XCTAssertNil(weakC4?.parent)
     }
+    
+    func testStoryboardPushAndPop() {
+        var tsc: TestableStoryboardCoordinator!
+        weak var weakC1: TestableStoryboardSubCoordinator?
+        weak var weakC2: TestableStoryboardSubCoordinator?
+        weak var weakC3: TestableNibCoordinator?
+        
+        tsc = TestableStoryboardCoordinator()
+        var strongC1: TestableStoryboardSubCoordinator? = TestableStoryboardSubCoordinator(owner: tsc, identifier: "child")
+        var strongC2: TestableStoryboardSubCoordinator? = TestableStoryboardSubCoordinator(owner: strongC1!, identifier: "child")
+        var strongC3: TestableNibCoordinator? = TestableNibCoordinator()
+        weakC1 = strongC1
+        weakC2 = strongC2
+        weakC3 = strongC3
+        tsc.start()
+        try? tsc?.push(coordinator: strongC1!.asAnyCoordinator(), animated: false)
+        
+        // Verify that only c1 is in the stack
+        XCTAssert(weakC1?.parent === tsc)
+        XCTAssertNil(weakC2?.parent)
+        XCTAssertNil(weakC3?.parent)
+        
+        try? weakC1?.push(coordinator: strongC2!.asAnyCoordinator(), animated: false)
+        try? weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false)
+        
+        // Verify that c2, c3, and c4 are now in the stack
+        XCTAssert(weakC1?.parent === tsc)
+        XCTAssert(weakC2?.parent === strongC1)
+        XCTAssert(weakC3?.parent === strongC2)
+        
+        strongC1 = nil
+        strongC2 = nil
+        strongC3 = nil
+        weakC3?.viewController.go?.pop()
+        
+        // Verify that c3 is no longer in the stack
+        XCTAssert(weakC1?.parent === tsc)
+        XCTAssert(weakC2?.parent === weakC1)
+        XCTAssertNil(weakC3?.parent)
+        
+        weakC1?.viewController.go?.pop()
+        
+        // Verify that c1 and c2 are no longer in the stack, and that top is now root
+        XCTAssert(tsc?.viewController.viewControllers.first === tsc?.viewController.topViewController)
+        XCTAssertNil(weakC1?.parent)
+        XCTAssertNil(weakC2?.parent)
+        XCTAssertNil(weakC3?.parent)
+        
+        tsc?.viewController.topViewController?.go?.pop()
+        
+        // Verify that tsc is unchanged (can't pop because it's root)
+        XCTAssert(tsc?.viewController.viewControllers.first === tsc?.viewController.topViewController)
+    }
 }

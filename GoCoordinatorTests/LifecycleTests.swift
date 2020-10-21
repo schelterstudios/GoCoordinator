@@ -99,28 +99,40 @@ class LifecycleTests: XCTestCase {
     }
     
     func testStoryboardCoordinatorLifecycle() throws {
-        weak var weakVC: TestableViewController?
+        weak var weakVC1: TestableViewController?
+        weak var weakVC2: TestableViewController?
         
         autoreleasepool {
-            var tsc: TestableStoryboardCoordinator? = TestableStoryboardCoordinator()
-            weakVC = tsc?.viewController.topViewController as? TestableViewController
-            tsc?.inputValue = 79
+            var sbc1: TestableStoryboardCoordinator? = TestableStoryboardCoordinator()
+            weakVC1 = sbc1?.viewController.topViewController as? TestableViewController
+            sbc1?.inputValue = 72
             
-            // Verify view controller is still allocated, but not loaded
-            XCTAssertNotNil(weakVC)
-            XCTAssertNotEqual(weakVC?.loadedValue, 79)
+            var sbc2: TestableStoryboardSubCoordinator? = TestableStoryboardSubCoordinator(owner: sbc1!, identifier: "child")
+            weakVC2 = sbc2?.viewController
+            sbc2?.inputValue = 73
             
-            tsc?.start()
-            weakVC?.viewDidLoad()
+            // Verify view controllers are still allocated, but not loaded
+            XCTAssertNotNil(weakVC1)
+            XCTAssertNotNil(weakVC2)
+            XCTAssertNotEqual(weakVC1?.loadedValue, 72)
+            XCTAssertNotEqual(weakVC2?.loadedValue, 73)
             
-            // Verify view controller is loaded
-            XCTAssertEqual(weakVC?.loadedValue, 79)
+            sbc1?.start()
+            weakVC1?.viewDidLoad()
+            sbc2?.start()
+            weakVC2?.viewDidLoad()
             
-            tsc = nil
+            // Verify view controllers are loaded
+            XCTAssertEqual(weakVC1?.loadedValue, 72)
+            XCTAssertEqual(weakVC2?.loadedValue, 73)
+            
+            sbc1 = nil
+            sbc2 = nil
         }
         
-        // Verify view controller is deallocated
-        XCTAssertNil(weakVC)
+        // Verify view controllers are deallocated
+        XCTAssertNil(weakVC1)
+        XCTAssertNil(weakVC2)
     }
     
     func testNavigatonCoordinatorLifecycle() throws {
