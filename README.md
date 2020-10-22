@@ -1,5 +1,5 @@
 # GoCoordinator
-![Travis (.com)](https://img.shields.io/travis/com/schelterstudios/GoCoordinator)
+![Travis.com badge](https://travis-ci.org/schelterstudios/GoCoordinator.svg?branch=master)
 
 (Super) early build of GoCoordinator.
 
