@@ -1,5 +1,9 @@
 # GoCoordinator
+[![Version](https://img.shields.io/cocoapods/v/GoCoordinator.svg?style=flat)](http://cocoapods.org/pods/GoCoordinator)
+[![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg?style=flat)](https://swift.org/)
 ![Travis.com badge](https://travis-ci.org/schelterstudios/GoCoordinator.svg?branch=master)
+[![Platform](https://img.shields.io/cocoapods/p/GoCoordinator.svg?style=flat)](http://cocoapods.org/pods/GoCoordinator)
+[![License](https://img.shields.io/cocoapods/l/GoCoordinator.svg?style=flat)](http://cocoapods.org/pods/GoCoordinator)
 
 (Super) early build of GoCoordinator.
 
