@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "GoCoordinator"
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
   spec.summary      = "A framework that offers robust and extensible interactions between Coordinators and ViewControllers."
 
   # This description is used to generate tags and improve search results.
