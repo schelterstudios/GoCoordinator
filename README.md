@@ -1,4 +1,6 @@
 # GoCoordinator
+![Travis (.com)](https://img.shields.io/travis/com/schelterstudios/GoCoordinator)
+
 (Super) early build of GoCoordinator.
 
 # Installation
