@@ -4,7 +4,7 @@ language: objective-c
 osx_image: xcode12.2
 env:
   matrix:
-    - TEST_SDK=iphonesimulator14.2 OS=14.0 NAME='iPhone 11'
+    - TEST_SDK=iphonesimulator14.2 OS=14.2 NAME='iPhone 11'
     - TEST_SDK=iphonesimulator14.2 OS=13.0 NAME='iPhone 8'
 
 script:
