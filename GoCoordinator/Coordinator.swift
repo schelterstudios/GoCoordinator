@@ -167,12 +167,8 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
             }
             
             var throwing: Error?
-            self?.viewController.present(coordinator.viewController, animated: true) {
-                if completion == nil && throwing != nil {
-                    fatalError("Unhandled Error: \(throwing!)")
-                }
-                completion?(throwing)
-            }
+            
+            // NOTE: Trying start() first here, see other note below.
             coordinator.presenting = self
             self?.presentedChild = coordinator
             do {
@@ -180,6 +176,26 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
             } catch let err {
                 throwing = err
             }
+            //
+            
+            self?.viewController.present(coordinator.viewController, animated: true) {
+                if completion == nil && throwing != nil {
+                    fatalError("Unhandled Error: \(throwing!)")
+                }
+                completion?(throwing)
+            }
+            
+            /* NOTE: Normally we add to hierarchy before calling start(),
+             but this fails with custom presentations. Trying start() first.
+             
+            coordinator.presenting = self
+            self?.presentedChild = coordinator
+            do {
+                try coordinator.start()
+            } catch let err {
+                throwing = err
+            }
+            */
         }
     }
     
