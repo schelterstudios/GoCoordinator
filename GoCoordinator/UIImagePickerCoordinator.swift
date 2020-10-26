@@ -60,7 +60,7 @@ open class UIImagePickerCoordinator: CoordinatorBase<UIImagePickerController> {
 }
 
 extension Coordinator {
-    func presentUIImagePicker(delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?) {
+    public func presentUIImagePicker(delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?) {
         let coordinator = UIImagePickerCoordinator(delegate: delegate)
         present(coordinator: coordinator.asAnyCoordinator())
     }

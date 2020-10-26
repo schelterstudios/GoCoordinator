@@ -27,7 +27,7 @@ open class UINavigationCoordinator: CoordinatorBase<UINavigationController> {
 }
 
 extension Coordinator {
-    func presentNavigation(root: AnyCoordinator) {
+    public func presentUINavigation(root: AnyCoordinator) {
         let coordinator = UINavigationCoordinator(root: root)
         present(coordinator: coordinator.asAnyCoordinator())
     }
