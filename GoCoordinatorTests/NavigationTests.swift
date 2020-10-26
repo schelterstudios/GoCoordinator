@@ -20,7 +20,7 @@ class NavigationTests: XCTestCase {
     }
 
     func testPushAndPopNavigation() throws {
-        var nc: NavigationCoordinator!
+        var nc: UINavigationCoordinator!
         weak var weakC1: TestableNibCoordinator?
         weak var weakC2: TestableNibCoordinator?
         weak var weakC3: TestableNibCoordinator?
@@ -35,7 +35,7 @@ class NavigationTests: XCTestCase {
             weakC2 = strongC2
             weakC3 = strongC3
             weakC4 = strongC4
-            nc = NavigationCoordinator(root: strongC1!.asAnyCoordinator())
+            nc = UINavigationCoordinator(root: strongC1!.asAnyCoordinator())
             XCTAssertNoThrow(try nc.start())
             
             // Verify that only c1 is in the stack

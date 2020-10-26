@@ -180,7 +180,7 @@ class LifecycleTests: XCTestCase {
         weak var weakNibC2: TestableNibCoordinator?
         weak var weakVC1: TestableViewController?
         weak var weakVC2: TestableViewController?
-        weak var weakNavC: NavigationCoordinator?
+        weak var weakNavC: UINavigationCoordinator?
         
         try autoreleasepool {
             var strongNibC1: TestableNibCoordinator? = TestableNibCoordinator()
@@ -193,7 +193,7 @@ class LifecycleTests: XCTestCase {
             // Set the coordinators' input test values, and add NibC1 to NavC root
             strongNibC1?.inputValue = 70
             strongNibC2?.inputValue = 71
-            var strongNavC: NavigationCoordinator? = NavigationCoordinator(root: strongNibC1!.asAnyCoordinator())
+            var strongNavC: UINavigationCoordinator? = UINavigationCoordinator(root: strongNibC1!.asAnyCoordinator())
             weakNavC = strongNavC
             strongNibC1 = nil
         

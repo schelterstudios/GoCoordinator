@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA0108E7253FA49800FA8360 /* TestableStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */; };
 		AA0109782540BA5D00FA8360 /* TestableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0109772540BA5C00FA8360 /* TestableViewController.xib */; };
-		AA3CCD44253CED4F00CD706F /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */; };
+		AA3CCD44253CED4F00CD706F /* UINavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD43253CED4F00CD706F /* UINavigationCoordinator.swift */; };
 		AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */; };
 		AA78A634253F534C00E84996 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA78A633253F534C00E84996 /* NavigationTests.swift */; };
 		AAB90099253BAD9200311307 /* GoCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB90097253BAD9200311307 /* GoCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -27,6 +27,7 @@
 		AAB901C8253BEB4500311307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C7253BEB4500311307 /* Assets.xcassets */; };
 		AAB901CB253BEB4500311307 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C9253BEB4500311307 /* LaunchScreen.storyboard */; };
 		AAB901EE253C121B00311307 /* MyStoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */; };
+		AAF1B86025476F2500881BFE /* UIImagePickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF1B85F25476F2500881BFE /* UIImagePickerCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +43,7 @@
 /* Begin PBXFileReference section */
 		AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestableStoryboard.storyboard; sourceTree = "<group>"; };
 		AA0109772540BA5C00FA8360 /* TestableViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TestableViewController.xib; sourceTree = "<group>"; };
-		AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
+		AA3CCD43253CED4F00CD706F /* UINavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationCoordinator.swift; sourceTree = "<group>"; };
 		AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableSubClasses.swift; sourceTree = "<group>"; };
 		AA78A633253F534C00E84996 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		AAB90094253BAD9200311307 /* GoCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +66,7 @@
 		AAB901CA253BEB4500311307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAB901CC253BEB4500311307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoryboardCoordinator.swift; sourceTree = "<group>"; };
+		AAF1B85F25476F2500881BFE /* UIImagePickerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +120,8 @@
 			children = (
 				AAB900A3253BAEC200311307 /* Coordinator.swift */,
 				AAB900A5253BAEC200311307 /* ManualCoordinator.swift */,
-				AA3CCD43253CED4F00CD706F /* NavigationCoordinator.swift */,
+				AAF1B85F25476F2500881BFE /* UIImagePickerCoordinator.swift */,
+				AA3CCD43253CED4F00CD706F /* UINavigationCoordinator.swift */,
 				AAB900A4253BAEC200311307 /* NibCoordinator.swift */,
 				AAB900A1253BAEC200311307 /* StoryboardCoordinator.swift */,
 				AAB900A2253BAEC200311307 /* UIViewController+Go.swift */,
@@ -299,10 +302,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB900AB253BAEC200311307 /* NibCoordinator.swift in Sources */,
+				AAF1B86025476F2500881BFE /* UIImagePickerCoordinator.swift in Sources */,
 				AAB900A9253BAEC200311307 /* UIViewController+Go.swift in Sources */,
 				AAB900A8253BAEC200311307 /* StoryboardCoordinator.swift in Sources */,
 				AAB900AA253BAEC200311307 /* Coordinator.swift in Sources */,
-				AA3CCD44253CED4F00CD706F /* NavigationCoordinator.swift in Sources */,
+				AA3CCD44253CED4F00CD706F /* UINavigationCoordinator.swift in Sources */,
 				AAB900AC253BAEC200311307 /* ManualCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

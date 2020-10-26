@@ -8,7 +8,7 @@
 import Foundation
 import UIKit.UINavigationController
 
-open class NavigationCoordinator: CoordinatorBase<UINavigationController> {
+open class UINavigationCoordinator: CoordinatorBase<UINavigationController> {
     
     public let root: AnyCoordinator
     
@@ -23,5 +23,12 @@ open class NavigationCoordinator: CoordinatorBase<UINavigationController> {
     
     override func instantiateViewController() throws -> UINavigationController {
         return UINavigationController()
+    }
+}
+
+extension Coordinator {
+    func presentNavigation(root: AnyCoordinator) {
+        let coordinator = UINavigationCoordinator(root: root)
+        present(coordinator: coordinator.asAnyCoordinator())
     }
 }
