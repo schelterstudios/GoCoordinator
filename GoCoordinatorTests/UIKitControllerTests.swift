@@ -60,6 +60,5 @@ class UIKitControllerTests: XCTestCase {
         
         // Verify alert controller is deallocated
         XCTAssertNil(weakAC)
-        XCTAssertNil(weakAVC)
     }
 }
