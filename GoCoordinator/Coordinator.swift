@@ -14,6 +14,7 @@ import class UIKit.UITabBarController
 public enum CoordinatorError: Error {
     case missingNavigation
     case missingImplementation(String)
+    case invalidInstantiation
     case dismissalRejected
 }
 

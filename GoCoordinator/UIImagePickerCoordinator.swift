@@ -27,7 +27,7 @@ open class UIImagePickerCoordinator: CoordinatorBase<UIImagePickerController> {
         self.delegate = delegate
     }
     
-    open override func start() throws {
+    public final override func start() throws {
         viewController.delegate = delegate
         
         if let sourceType = self.sourceType         { viewController.sourceType = sourceType }
