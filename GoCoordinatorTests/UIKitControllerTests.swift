@@ -19,7 +19,7 @@ class UIKitControllerTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testAlertCoordinatorLifecycle() throws {
+    func testAlertCoordinator() throws {
         weak var weakAC: UIAlertCoordinator?
         weak var weakAVC: UIAlertController?
         
