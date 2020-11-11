@@ -13,6 +13,7 @@
 		AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */; };
 		AA745378255B9DDD00B6CA1F /* UIActivityViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA745377255B9DDC00B6CA1F /* UIActivityViewCoordinator.swift */; };
 		AA74537D255C380F00B6CA1F /* UIAlertCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74537C255C380E00B6CA1F /* UIAlertCoordinator.swift */; };
+		AA745385255C80D800B6CA1F /* UIKitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA745384255C80D700B6CA1F /* UIKitControllerTests.swift */; };
 		AA78A634253F534C00E84996 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA78A633253F534C00E84996 /* NavigationTests.swift */; };
 		AAB90099253BAD9200311307 /* GoCoordinator.h in Headers */ = {isa = PBXBuildFile; fileRef = AAB90097253BAD9200311307 /* GoCoordinator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AAB900A8253BAEC200311307 /* StoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB900A1253BAEC200311307 /* StoryboardCoordinator.swift */; };
@@ -49,6 +50,7 @@
 		AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestableSubClasses.swift; sourceTree = "<group>"; };
 		AA745377255B9DDC00B6CA1F /* UIActivityViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIActivityViewCoordinator.swift; sourceTree = "<group>"; };
 		AA74537C255C380E00B6CA1F /* UIAlertCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertCoordinator.swift; sourceTree = "<group>"; };
+		AA745384255C80D700B6CA1F /* UIKitControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitControllerTests.swift; sourceTree = "<group>"; };
 		AA78A633253F534C00E84996 /* NavigationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		AAB90094253BAD9200311307 /* GoCoordinator.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GoCoordinator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB90097253BAD9200311307 /* GoCoordinator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoCoordinator.h; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 		AAB901AC253BEAD800311307 /* GoCoordinatorTests */ = {
 			isa = PBXGroup;
 			children = (
+				AA745384255C80D700B6CA1F /* UIKitControllerTests.swift */,
 				AA0109772540BA5C00FA8360 /* TestableViewController.xib */,
 				AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */,
 				AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */,
@@ -325,6 +328,7 @@
 			files = (
 				AAB901AE253BEAD800311307 /* LifecycleTests.swift in Sources */,
 				AA78A634253F534C00E84996 /* NavigationTests.swift in Sources */,
+				AA745385255C80D800B6CA1F /* UIKitControllerTests.swift in Sources */,
 				AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

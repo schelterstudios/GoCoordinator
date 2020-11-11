@@ -229,6 +229,4 @@ class LifecycleTests: XCTestCase {
         XCTAssertNil(weakVC1)
         XCTAssertNil(weakVC2)
     }
-    
-    
 }
