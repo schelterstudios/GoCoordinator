@@ -25,11 +25,16 @@
 		AAB901B0253BEAD800311307 /* GoCoordinator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB90094253BAD9200311307 /* GoCoordinator.framework */; };
 		AAB901BF253BEB4100311307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901BE253BEB4100311307 /* AppDelegate.swift */; };
 		AAB901C1253BEB4100311307 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901C0253BEB4100311307 /* SceneDelegate.swift */; };
-		AAB901C3253BEB4100311307 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901C2253BEB4100311307 /* ViewController.swift */; };
-		AAB901C6253BEB4100311307 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C4253BEB4100311307 /* Main.storyboard */; };
 		AAB901C8253BEB4500311307 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C7253BEB4500311307 /* Assets.xcassets */; };
 		AAB901CB253BEB4500311307 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAB901C9253BEB4500311307 /* LaunchScreen.storyboard */; };
-		AAB901EE253C121B00311307 /* MyStoryboardCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */; };
+		AAE99D01255F17FA008D9609 /* Friends.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE99D00255F17FA008D9609 /* Friends.storyboard */; };
+		AAE99D0A255F19EA008D9609 /* FriendsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE99D09255F19EA008D9609 /* FriendsCoordinator.swift */; };
+		AAE99D10255F1C21008D9609 /* FriendInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE99D0F255F1C21008D9609 /* FriendInfoViewController.swift */; };
+		AAE99D18255F1C37008D9609 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE99D17255F1C37008D9609 /* FriendsViewController.swift */; };
+		AAE99D1E255F1CAA008D9609 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE99D1D255F1CAA008D9609 /* Contact.swift */; };
+		AAE99D31255F4E26008D9609 /* FriendMapViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AAE99D30255F4E26008D9609 /* FriendMapViewController.xib */; };
+		AAE99D36255F5448008D9609 /* FriendMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE99D35255F5448008D9609 /* FriendMapViewController.swift */; };
+		AAE99D3E255F54F1008D9609 /* FriendMapCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE99D3D255F54F1008D9609 /* FriendMapCoordinator.swift */; };
 		AAF1B86025476F2500881BFE /* UIImagePickerCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF1B85F25476F2500881BFE /* UIImagePickerCoordinator.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,12 +71,17 @@
 		AAB901BC253BEB4100311307 /* GoCoordinatorExamples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoCoordinatorExamples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAB901BE253BEB4100311307 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAB901C0253BEB4100311307 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		AAB901C2253BEB4100311307 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		AAB901C5253BEB4100311307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AAB901C7253BEB4500311307 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAB901CA253BEB4500311307 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAB901CC253BEB4500311307 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyStoryboardCoordinator.swift; sourceTree = "<group>"; };
+		AAE99D00255F17FA008D9609 /* Friends.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Friends.storyboard; sourceTree = "<group>"; };
+		AAE99D09255F19EA008D9609 /* FriendsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCoordinator.swift; sourceTree = "<group>"; };
+		AAE99D0F255F1C21008D9609 /* FriendInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendInfoViewController.swift; sourceTree = "<group>"; };
+		AAE99D17255F1C37008D9609 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		AAE99D1D255F1CAA008D9609 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		AAE99D30255F4E26008D9609 /* FriendMapViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendMapViewController.xib; sourceTree = "<group>"; };
+		AAE99D35255F5448008D9609 /* FriendMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendMapViewController.swift; sourceTree = "<group>"; };
+		AAE99D3D255F54F1008D9609 /* FriendMapCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendMapCoordinator.swift; sourceTree = "<group>"; };
 		AAF1B85F25476F2500881BFE /* UIImagePickerCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImagePickerCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,16 +166,61 @@
 		AAB901BD253BEB4100311307 /* GoCoordinatorExamples */ = {
 			isa = PBXGroup;
 			children = (
+				AAE99D1C255F1C64008D9609 /* Model */,
+				AAE99D0E255F1BFE008D9609 /* ViewControllers */,
+				AAE99D08255F19D2008D9609 /* Coordinators */,
 				AAB901BE253BEB4100311307 /* AppDelegate.swift */,
 				AAB901C0253BEB4100311307 /* SceneDelegate.swift */,
-				AAB901C2253BEB4100311307 /* ViewController.swift */,
-				AAB901C4253BEB4100311307 /* Main.storyboard */,
 				AAB901C7253BEB4500311307 /* Assets.xcassets */,
 				AAB901C9253BEB4500311307 /* LaunchScreen.storyboard */,
 				AAB901CC253BEB4500311307 /* Info.plist */,
-				AAB901ED253C121B00311307 /* MyStoryboardCoordinator.swift */,
 			);
 			path = GoCoordinatorExamples;
+			sourceTree = "<group>";
+		};
+		AAE99D08255F19D2008D9609 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				AAE99D3D255F54F1008D9609 /* FriendMapCoordinator.swift */,
+				AAE99D09255F19EA008D9609 /* FriendsCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		AAE99D0E255F1BFE008D9609 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AAE99D2F255F4E00008D9609 /* FriendMap */,
+				AAE99D2E255F4DEB008D9609 /* Friends */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		AAE99D1C255F1C64008D9609 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				AAE99D1D255F1CAA008D9609 /* Contact.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		AAE99D2E255F4DEB008D9609 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				AAE99D17255F1C37008D9609 /* FriendsViewController.swift */,
+				AAE99D0F255F1C21008D9609 /* FriendInfoViewController.swift */,
+				AAE99D00255F17FA008D9609 /* Friends.storyboard */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
+		AAE99D2F255F4E00008D9609 /* FriendMap */ = {
+			isa = PBXGroup;
+			children = (
+				AAE99D35255F5448008D9609 /* FriendMapViewController.swift */,
+				AAE99D30255F4E26008D9609 /* FriendMapViewController.xib */,
+			);
+			path = FriendMap;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,8 +353,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAB901CB253BEB4500311307 /* LaunchScreen.storyboard in Resources */,
+				AAE99D31255F4E26008D9609 /* FriendMapViewController.xib in Resources */,
+				AAE99D01255F17FA008D9609 /* Friends.storyboard in Resources */,
 				AAB901C8253BEB4500311307 /* Assets.xcassets in Resources */,
-				AAB901C6253BEB4100311307 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,10 +393,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAB901C3253BEB4100311307 /* ViewController.swift in Sources */,
+				AAE99D0A255F19EA008D9609 /* FriendsCoordinator.swift in Sources */,
+				AAE99D10255F1C21008D9609 /* FriendInfoViewController.swift in Sources */,
 				AAB901BF253BEB4100311307 /* AppDelegate.swift in Sources */,
+				AAE99D1E255F1CAA008D9609 /* Contact.swift in Sources */,
+				AAE99D36255F5448008D9609 /* FriendMapViewController.swift in Sources */,
 				AAB901C1253BEB4100311307 /* SceneDelegate.swift in Sources */,
-				AAB901EE253C121B00311307 /* MyStoryboardCoordinator.swift in Sources */,
+				AAE99D18255F1C37008D9609 /* FriendsViewController.swift in Sources */,
+				AAE99D3E255F54F1008D9609 /* FriendMapCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,14 +415,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		AAB901C4253BEB4100311307 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AAB901C5253BEB4100311307 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		AAB901C9253BEB4500311307 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
