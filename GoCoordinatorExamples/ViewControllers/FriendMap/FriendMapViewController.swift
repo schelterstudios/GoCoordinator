@@ -32,7 +32,7 @@ class FriendMapViewController: UIViewController {
                                           action: #selector(FriendMapViewController.close(_:)))
         navigationItem.leftBarButtonItem = closeButton
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        let span = MKCoordinateSpan(latitudeDelta: 10, longitudeDelta: 10)
         mapView.region = MKCoordinateRegion(center: friend.coordinate, span: span)
         
         let annotation = ContactAnnotation(contact: friend)

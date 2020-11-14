@@ -14,10 +14,8 @@ fileprivate let MOCK_LASTNAMES = Set(["Sinatra", "Smith", "Brown", "Johnson", "A
 func random_contact() -> Contact {
     let firstName = MOCK_FIRSTNAMES.randomElement()!
     let lastName = MOCK_LASTNAMES.randomElement()!
-    let cx:Double = 41.5; let cy:Double = -114
-    let r = Double.random(in: 0...1)
-    let a = Double.random(in: 0..<(Double.pi * 2))
-    let x = cos(a) * r + cx; let y = sin(a) * r + cy
+    let x = Double.random(in: 34...45)
+    let y = Double.random(in: (-117.1)...(-89.5))
     let coordinate = CLLocationCoordinate2D(latitude: x, longitude: y)
     return Contact(firstName: firstName, lastName: lastName, coordinate: coordinate)
 }
