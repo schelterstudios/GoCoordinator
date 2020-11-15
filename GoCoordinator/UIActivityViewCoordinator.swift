@@ -32,7 +32,7 @@ open class UIActivityViewCoordinator: CoordinatorBase<UIActivityViewController> 
     
     private let activityItems: [Any]?
     private let applicationActivities: [UIActivity]?
-    private let activityItemsConfiguration: UIActivityItemsConfigurationReading?
+    private let activityItemsConfiguration: Any?
     
     public init(activityItems: [Any], applicationActivities: [UIActivity]?) {
         self.activityItems = activityItems
@@ -60,7 +60,7 @@ open class UIActivityViewCoordinator: CoordinatorBase<UIActivityViewController> 
         
         } else if let activityItemsConfiguration = self.activityItemsConfiguration {
             if #available(iOS 14.0, *) {
-                return UIActivityViewController(activityItemsConfiguration: activityItemsConfiguration)
+                return UIActivityViewController(activityItemsConfiguration: activityItemsConfiguration as! UIActivityItemsConfigurationReading)
             }
         }
         throw CoordinatorError.invalidInstantiation
