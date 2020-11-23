@@ -11,6 +11,8 @@
 		AA0109782540BA5D00FA8360 /* TestableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA0109772540BA5C00FA8360 /* TestableViewController.xib */; };
 		AA3CCD44253CED4F00CD706F /* UINavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD43253CED4F00CD706F /* UINavigationCoordinator.swift */; };
 		AA3CCD63253D493F00CD706F /* TestableSubClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */; };
+		AA712A70256B4F6F00325E92 /* GoCoordinator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB90094253BAD9200311307 /* GoCoordinator.framework */; };
+		AA712A71256B4F6F00325E92 /* GoCoordinator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = AAB90094253BAD9200311307 /* GoCoordinator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA745378255B9DDD00B6CA1F /* UIActivityViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA745377255B9DDC00B6CA1F /* UIActivityViewCoordinator.swift */; };
 		AA74537D255C380F00B6CA1F /* UIAlertCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA74537C255C380E00B6CA1F /* UIAlertCoordinator.swift */; };
 		AA745385255C80D800B6CA1F /* UIKitControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA745384255C80D700B6CA1F /* UIKitControllerTests.swift */; };
@@ -39,6 +41,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AA712A72256B4F6F00325E92 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AAB9008B253BAD9200311307 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AAB90093253BAD9200311307;
+			remoteInfo = GoCoordinator;
+		};
 		AAB901B1253BEAD800311307 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AAB9008B253BAD9200311307 /* Project object */;
@@ -47,6 +56,20 @@
 			remoteInfo = GoCoordinator;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA712A74256B4F6F00325E92 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AA712A71256B4F6F00325E92 /* GoCoordinator.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TestableStoryboard.storyboard; sourceTree = "<group>"; };
@@ -105,12 +128,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA712A70256B4F6F00325E92 /* GoCoordinator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA712A6F256B4F6F00325E92 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AAB9008A253BAD9200311307 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +149,7 @@
 				AAB901AC253BEAD800311307 /* GoCoordinatorTests */,
 				AAB901BD253BEB4100311307 /* GoCoordinatorExamples */,
 				AAB90095253BAD9200311307 /* Products */,
+				AA712A6F256B4F6F00325E92 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -280,10 +312,12 @@
 				AAB901B8253BEB4100311307 /* Sources */,
 				AAB901B9253BEB4100311307 /* Frameworks */,
 				AAB901BA253BEB4100311307 /* Resources */,
+				AA712A74256B4F6F00325E92 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				AA712A73256B4F6F00325E92 /* PBXTargetDependency */,
 			);
 			name = GoCoordinatorExamples;
 			productName = GoCoordinatorExamples;
@@ -407,6 +441,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AA712A73256B4F6F00325E92 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AAB90093253BAD9200311307 /* GoCoordinator */;
+			targetProxy = AA712A72256B4F6F00325E92 /* PBXContainerItemProxy */;
+		};
 		AAB901B2253BEAD800311307 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AAB90093253BAD9200311307 /* GoCoordinator */;

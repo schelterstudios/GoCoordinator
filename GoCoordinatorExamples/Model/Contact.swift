@@ -26,7 +26,7 @@ import Foundation
 import MapKit
 
 fileprivate let MOCK_FIRSTNAMES = Set(["Steve", "Sam", "Fred", "Sally", "Alice", "Frank", "Ted", "Lisa", "Cindy"])
-fileprivate let MOCK_LASTNAMES = Set(["Sinatra", "Smith", "Brown", "Johnson", "Adams", "Jones", "Hancock", "Appleseed", "Alexander", "O'Donnell"])
+fileprivate let MOCK_LASTNAMES = Set(["Williams", "Smith", "Brown", "Johnson", "Adams", "Jones", "Hancock", "Appleseed", "Alexander", "O'Donnell"])
 
 func random_contact() -> Contact {
     let firstName = MOCK_FIRSTNAMES.randomElement()!
