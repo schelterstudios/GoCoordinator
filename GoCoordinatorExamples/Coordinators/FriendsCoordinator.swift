@@ -41,7 +41,7 @@ class FriendsCoordinator: StoryboardCoordinator<FriendsViewController> {
     
     func pushInfo(friend: Contact, delegate: FriendInfoViewControllerDelegate?) {
         let coordinator = FriendInfoCoordinator(friend: friend, delegate: delegate, owner: self)
-        try! push(coordinator: coordinator.asAnyCoordinator(), animated: true)
+        try! push(coordinator: coordinator.asAnyCoordinator())
     }
 }
 

@@ -39,7 +39,7 @@ public protocol CoordinatorNavigator: class {
     var parent: CoordinatorParent? { get set }
     var presenting: CoordinatorParent? { get set }
     var allowDismissal: Bool { get set }
-    
+ 
     func push(coordinator: AnyCoordinator, animated: Bool) throws
     func pop()
     func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?)
@@ -47,11 +47,6 @@ public protocol CoordinatorNavigator: class {
 }
 
 public extension CoordinatorNavigator {
-        
-    func present(coordinator: AnyCoordinator) {
-        present(coordinator: coordinator, completion: nil)
-    }
-    
     func pushOrPresent(coordinator: AnyCoordinator, animated: Bool = true,
                        completion: ((Error?)->Void)? = nil) {
         do {
@@ -69,6 +64,18 @@ public extension CoordinatorNavigator {
         } else {
             dismiss(completion: completion)
         }
+    }
+    
+    func push(coordinator: AnyCoordinator) throws {
+        try push(coordinator: coordinator, animated: true)
+    }
+    
+    func present(coordinator: AnyCoordinator) {
+        present(coordinator: coordinator, completion: nil)
+    }
+    
+    func dismiss() {
+        dismiss(completion: nil)
     }
 }
 
@@ -141,7 +148,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         CoordinatorLinker.linker.unlinkCooordinatorFor(viewController)
     }
     
-    public func push(coordinator: AnyCoordinator, animated: Bool = true) throws {
+    open func push(coordinator: AnyCoordinator, animated: Bool) throws {
         if pushedChild != nil {
             popChild(animated: false)
         }
@@ -170,11 +177,11 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         pushedChild = nil
     }
     
-    public func pop() {
+    open func pop() {
         parent?.popChild(animated: true)
     }
     
-    public func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
+    open func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
         dismissPresented(animated: true) { [weak self] e in
             if let err = e {
                 if completion == nil {
@@ -240,7 +247,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
         }
     }
     
-    public func dismiss(completion: ((Error?)->Void)? = nil) {
+    open func dismiss(completion: ((Error?)->Void)?) {
         presenting?.dismissPresented(animated: true, completion: completion)
     }
 }

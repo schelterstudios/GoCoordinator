@@ -43,6 +43,24 @@ open class ManualCoordinator: CoordinatorBase<UIViewController> {
         viewController.viewDidLoad()
     }
     
+    // NOTE: Overriding CoordinatorBase to fix autocompletion bug    
+    final public override func push(coordinator: AnyCoordinator, animated: Bool) throws {
+        try super.push(coordinator: coordinator, animated: animated)
+    }
+        
+    final public override func pop() {
+        super.pop()
+    }
+    
+    final public override func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
+        super.present(coordinator: coordinator, completion: completion)
+    }
+    
+    final public override func dismiss(completion: ((Error?)->Void)?) {
+        super.dismiss(completion: completion)
+    }
+    // /////////
+    
     override func instantiateViewController() throws -> UIViewController {
         return block()
     }
