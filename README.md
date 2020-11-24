@@ -105,4 +105,24 @@ A few things to note here. First of all, view controllers should not be interact
 Now run your app. Tapping the buttons should now present and dismiss your new view.
 
 # Subclassing Coordinators
-(coming soon)
+The more view controllers you add to your app, the elaborate your coordinator infrastructure will become. You'll also want some sophistication that allows your coordinators to shuffle data between view controllers. You will need to subclass coordinators to define its parameters and initialize a view controller accordingly, and, in practice, you will likely have a coordinator subclass for each view controller. For demonstration, we will refer to the [GoCoordinatorExamples](https://github.com/schelterstudios/GoCoordinator/tree/master/GoCoordinatorExamples) project. First, let's take a look at **FriendsCoordinator**.
+```swift
+import UIKit
+import GoCoordinator
+
+class FriendsCoordinator: StoryboardCoordinator<FriendsViewController> {
+    
+    private let friends: [Contact]
+    
+    override init() {
+        friends = (0..<10).map{ _ in random_contact() }
+        super.init()
+    }
+    
+    override func start() throws {
+        viewController.friends = friends
+        try super.start()
+    }
+}
+```
+Since **FriendsViewController** is a storyboard view controller, we subclass StoryboardCoordinator and declare it's view controller as type **FriendsViewController**. We override it's initializer so it can capture data to pass on to its viewe controller, and we override `start()` to pass that data. That's it! Now, by just adding **FriendsCoordinator** to the 
