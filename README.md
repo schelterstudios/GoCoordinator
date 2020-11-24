@@ -155,7 +155,7 @@ func pushInfo(friend: Contact, delegate: FriendInfoViewControllerDelegate?) {
     try! push(coordinator: coordinator.asAnyCoordinator())
 }
 ```
-Typically, if one coordinator is always pushed by another, I explicitly define that logic as a custom method of the parent coordinator. Since **FriendInfoCoordinator** needs an owner from the same storyboard, the expectation is that we will only be pushing it from our top level coordinator. By the way, to access your custom coordinator methods from within a view controller, use `go(as:)` and pass in the coordinaor type. **FriendsViewController** calls *pushInfo* like so:
+Typically, if one coordinator is always pushed by another, I explicitly define that logic as a custom method of the parent coordinator. Since **FriendInfoCoordinator** needs an owner from the same storyboard, the expectation is that we will only be pushing it from our top level coordinator. To access your custom coordinator methods from within a view controller, use `go(as:)` and pass in the coordinaor type. **FriendsViewController** calls *pushInfo* like so:
 ```swift
 go(as: FriendsCoordinator.self).pushInfo(friend: friends[indexPath.row], delegate: self)
 ```
