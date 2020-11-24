@@ -105,7 +105,7 @@ A few things to note here. First of all, view controllers should not be interact
 Now run your app. Tapping the buttons should now present and dismiss your new view.
 
 # Subclassing Coordinators
-The more view controllers you add to your app, the elaborate your coordinator infrastructure will become. You'll also want some sophistication that allows your coordinators to shuffle data between view controllers. You will need to subclass coordinators to define its parameters and initialize a view controller accordingly, and, in practice, you will likely have a coordinator subclass for each view controller. For demonstration, we will refer to the [GoCoordinatorExamples](https://github.com/schelterstudios/GoCoordinator/tree/master/GoCoordinatorExamples) project. First, let's take a look at **FriendsCoordinator**.
+The more view controllers you add to your app, the more elaborate your coordinator infrastructure will become. You'll also want some sophistication that allows your coordinators to shuffle data between view controllers. You will need to subclass coordinators to define its parameters and initialize a view controller accordingly, and, in practice, you will likely have a coordinator subclass for each view controller. For demonstration, we will refer to the [GoCoordinatorExamples](https://github.com/schelterstudios/GoCoordinator/tree/master/GoCoordinatorExamples) project. First, let's take a look at **FriendsCoordinator**.
 ```swift
 import UIKit
 import GoCoordinator
