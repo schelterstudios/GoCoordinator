@@ -31,6 +31,10 @@ open class UIAlertCoordinator: CoordinatorBase<UIAlertController> {
     private let message: String?
     private let preferredStyle: UIAlertController.Style
     
+    var popoverPresentationController: UIPopoverPresentationController? {
+        return viewController.popoverPresentationController
+    }
+    
     private(set) var actions: [UIAlertAction] = []
     private var actionHandlers: [UIAlertAction: ((UIAlertAction) -> Void)?] = [:]
     
