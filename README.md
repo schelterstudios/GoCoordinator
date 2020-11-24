@@ -125,4 +125,5 @@ class FriendsCoordinator: StoryboardCoordinator<FriendsViewController> {
     }
 }
 ```
-Since **FriendsViewController** is a storyboard view controller, we subclass StoryboardCoordinator and declare it's view controller as type **FriendsViewController**. We override it's initializer so it can capture data to pass on to its viewe controller, and we override `start()` to pass that data. That's it! Now, by just adding **FriendsCoordinator** to the 
+Since **FriendsViewController** is a storyboard view controller, we subclass StoryboardCoordinator and declare it's view controller as type **FriendsViewController**. We override it's initializer so it can capture data to pass on to its viewe controller, and we override `start()` to pass that data. That's it! Now, once you add **FriendsCoordinator** to the coordinator hierarchy, it will automatically call `start()` and load up **FriendsViewController** for you.
+> Special Note: The default behavior of storyboard coordinators is to find a storyboard that matches its prefix. (ie: *Friends*Coordinator will look for *Friends*.storyboard. If there's no StoryboardOwner assigned, it will also look for the *Is Initial View Controller* flag.)
