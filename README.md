@@ -159,3 +159,5 @@ Typically, if one coordinator is always pushed by another, I explicitly define t
 ```swift
 go(as: FriendsCoordinator.self).pushInfo(friend: friends[indexPath.row], delegate: self)
 ```
+**FriendInfoCoordinator**, however, has no custom methods, so we don't need `go(as:)` for it. **FriendInfoViewController** can take you back to the previous view controller by just calling `go.pop()` or `go.popOrDismiss()`.  
+> Special Note: `go.popOrDismiss()` is a nice option to increase abstraction of a view controller. With it, our controller doesn't have to concern itself with how it was displayed. If it was pushed, it pops. If it was presented, it dismisses.
