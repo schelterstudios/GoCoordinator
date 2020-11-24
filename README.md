@@ -126,4 +126,33 @@ class FriendsCoordinator: StoryboardCoordinator<FriendsViewController> {
 }
 ```
 Since **FriendsViewController** is a storyboard view controller, we subclass StoryboardCoordinator and declare it's view controller as type **FriendsViewController**. We override it's initializer so it can capture data to pass on to its viewe controller, and we override `start()` to pass that data. That's it! Now, once you add **FriendsCoordinator** to the coordinator hierarchy, it will automatically call `start()` and load up **FriendsViewController** for you.
-> Special Note: The default behavior of storyboard coordinators is to find a storyboard that matches its prefix. (ie: *Friends*Coordinator will look for *Friends*.storyboard. If there's no StoryboardOwner assigned, it will also look for the *Is Initial View Controller* flag.)
+> Special Note: The default behavior of storyboard coordinators is to find a storyboard that matches its prefix. (ie: *Friends*Coordinator will look for *Friends*.storyboard.) If there's no StoryboardOwner assigned, it will also look for the *Is Initial View Controller* flag.)
+Now, let's move right on to the second coordinator **FriendInfoCoordinator**. This one, like the previous one, is a storyboard coordinator, but there are a few differences. Let's take a look.
+```swift
+class FriendInfoCoordinator: StoryboardCoordinator<FriendInfoViewController> {
+    
+    private let friend: Contact
+    private weak var delegate: FriendInfoViewControllerDelegate?
+    
+    init(friend: Contact, delegate: FriendInfoViewControllerDelegate?, owner: StoryboardOwner) {
+        self.friend = friend
+        self.delegate = delegate
+        super.init(owner: owner, identifier: "contact-details")
+    }
+    
+    override func start() throws {
+        viewController.friend = friend
+        viewController.delegate = delegate
+        try super.start()
+    }
+}
+```
+Its initializer has a few extra parameters, namely *owner* and *identifier*. When we set up a storyboard, one view controller is designated as the initial view controller. We treat that as the top-level owner of the storyboard. Any additional view controllers are essentially tenants within that space, and cannot be instantiated on their own. After instantiation, however, a tenant can be treated as an owner for any other tenants within the storyboard. The identifier is just the Storyboard ID you assign to the view controller in the storyboard. The rest is standard setup and start stuff. Now, let's link them up. In **FriendsCoordinator**, we have added this method:
+```swift
+func pushInfo(friend: Contact, delegate: FriendInfoViewControllerDelegate?) {
+    let coordinator = FriendInfoCoordinator(friend: friend, delegate: delegate, owner: self)
+    try! push(coordinator: coordinator.asAnyCoordinator())
+}
+```
+Typically, if one coordinator is always pushed by another, I explicitly define that logic as a custom method of the parent coordinator. Since **FriendInfoCoordinator** needs an owner from the same storyboard, the expectation is that we will only be pushing it from our top level coordinator. By the way, to access your custom coordinator methods from within a view controller, use `go(as:)` and pass in the coordinaor type. **FriendsViewController** calls *pushInfo* like so:
+`go(as: FriendsCoordinator.self).pushInfo(friend: friends[indexPath.row], delegate: self)`
