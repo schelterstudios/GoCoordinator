@@ -161,3 +161,37 @@ go(as: FriendsCoordinator.self).pushInfo(friend: friends[indexPath.row], delegat
 ```
 **FriendInfoCoordinator**, however, has no custom methods, so we don't need `go(as:)` for it. **FriendInfoViewController** can take you back to the previous view controller by just calling `go.pop()` or `go.popOrDismiss()`.  
 > Special Note: `go.popOrDismiss()` is a nice option to increase abstraction of a view controller. With it, our controller doesn't have to concern itself with how it was displayed. If it was pushed, it pops. If it was presented, it dismisses.
+Next, lets look at **FriendMapViewController** and **FriendMapCoordinator**. **FriendMapViewController** is a standalone view that presents modally, so we set it up as its own nib. As you've seen before, we can mix and match different types of coordinators in our app. Just like with StoryboardCoordinator, you can subclass NibCoordinator. Here's our example:
+```swift
+import UIKit
+import GoCoordinator
+
+class FriendMapCoordinator: NibCoordinator<FriendMapViewController> {
+    
+    private let friend: Contact
+    
+    init(friend: Contact) {
+        self.friend = friend
+    }
+    
+    override func start() throws {
+        viewController.friend = friend
+        try super.start()
+    }
+}
+```
+Looks familiar, right? Now, just like with **FriendInfoCoordinator**, we need an elegant way to present it. We could just add a custom method to our other coordinaors, or we could just make a Coordinator extension. Coordinator extensions are usually preferred for standalone views, so they become globally accessible. We can go ahead and put the extension right away in the same class file as the **FriendMapCoordinator** declaration, like so:
+```swift
+extension Coordinator {
+    func presentFriendMap(friend: Contact) {
+        let root = FriendMapCoordinator(friend: friend)
+        let coordinator = UINavigationCoordinator(root: root.asAnyCoordinator())
+        present(coordinator: coordinator.asAnyCoordinator())
+    }
+}
+```
+Remember, the "go" hook accesses generic coordinator methods, so by adding *presentFriendMap* to Coordinator, we can call it generically like we do in **FriendInfoViewController**:
+```swift
+go.presentFriendMap(friend: friend)
+```
+That's all there is to it! Through coordinator subclassing, you can streamline the instantiation of your views as well as providing more means for your views to communicate to your coordinators. It also allows you to incorporate patterns such as Delegate (as you can see in the example) and MVVM.
