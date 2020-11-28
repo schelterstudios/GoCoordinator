@@ -105,4 +105,93 @@ A few things to note here. First of all, view controllers should not be interact
 Now run your app. Tapping the buttons should now present and dismiss your new view.
 
 # Subclassing Coordinators
-(coming soon)
+The more view controllers you add to your app, the more elaborate your coordinator infrastructure will become. You'll also want some sophistication that allows your coordinators to shuffle data between view controllers. You will need to subclass coordinators to define its parameters and initialize a view controller accordingly, and, in practice, you will likely have a coordinator subclass for each view controller. For demonstration, we will refer to the [GoCoordinatorExamples](https://github.com/schelterstudios/GoCoordinator/tree/master/GoCoordinatorExamples) project. First, let's take a look at **FriendsCoordinator**.
+```swift
+import UIKit
+import GoCoordinator
+
+class FriendsCoordinator: StoryboardCoordinator<FriendsViewController> {
+    
+    private let friends: [Contact]
+    
+    override init() {
+        friends = (0..<10).map{ _ in random_contact() }
+        super.init()
+    }
+    
+    override func start() throws {
+        viewController.friends = friends
+        try super.start()
+    }
+}
+```
+Since **FriendsViewController** is a storyboard view controller, we subclass StoryboardCoordinator and declare it's view controller as type **FriendsViewController**. We override it's initializer so it can capture data to pass on to its viewe controller, and we override `start()` to pass that data. That's it! Now, once you add **FriendsCoordinator** to the coordinator hierarchy, it will automatically call `start()` and load up **FriendsViewController** for you.
+> Special Note: The default behavior of storyboard coordinators is to find a storyboard that matches its prefix. (ie: *Friends*Coordinator will look for *Friends*.storyboard.) If there's no StoryboardOwner assigned, it will also look for the view controller with the *Is Initial View Controller* flag.)
+
+Now, let's move right on to the second coordinator **FriendInfoCoordinator**. This one, like the previous one, is a storyboard coordinator, but there are a few differences. Let's take a look.
+```swift
+class FriendInfoCoordinator: StoryboardCoordinator<FriendInfoViewController> {
+    
+    private let friend: Contact
+    private weak var delegate: FriendInfoViewControllerDelegate?
+    
+    init(friend: Contact, delegate: FriendInfoViewControllerDelegate?, owner: StoryboardOwner) {
+        self.friend = friend
+        self.delegate = delegate
+        super.init(owner: owner, identifier: "contact-details")
+    }
+    
+    override func start() throws {
+        viewController.friend = friend
+        viewController.delegate = delegate
+        try super.start()
+    }
+}
+```
+Its initializer has a few extra parameters, namely *owner* and *identifier*. When we set up a storyboard, one view controller is designated as the initial view controller. We treat that as the top-level owner of the storyboard. Any additional view controllers are essentially tenants within that space, and cannot be instantiated on their own. After instantiation, however, a tenant can be treated as an owner for any other tenants within the storyboard. The identifier is just the Storyboard ID you assign to the view controller in the storyboard. The rest is standard setup and start stuff. Now, let's link them up. In **FriendsCoordinator**, we have added this method:
+```swift
+func pushInfo(friend: Contact, delegate: FriendInfoViewControllerDelegate?) {
+    let coordinator = FriendInfoCoordinator(friend: friend, delegate: delegate, owner: self)
+    try! push(coordinator: coordinator.asAnyCoordinator())
+}
+```
+Typically, if one coordinator is always pushed by another, I explicitly define that logic as a custom method of the parent coordinator. Since **FriendInfoCoordinator** needs an owner from the same storyboard, the expectation is that we will only be pushing it from our top level coordinator, anyway. To access your custom coordinator methods from within a view controller, use `go(as:)` and pass in the coordinaor type. **FriendsViewController** calls *pushInfo* like so:
+```swift
+go(as: FriendsCoordinator.self).pushInfo(friend: friends[indexPath.row], delegate: self)
+```
+**FriendInfoCoordinator**, however, has no custom methods, so we don't need `go(as:)` for it. **FriendInfoViewController** can take you back to the previous view controller by just calling `go.pop()` or `go.popOrDismiss()`.  
+> Special Note: `go.popOrDismiss()` is a nice option to increase abstraction of a view controller. With it, our controller doesn't have to concern itself with how it was displayed. If it was pushed, it pops. If it was presented, it dismisses.
+Next, lets look at **FriendMapViewController** and **FriendMapCoordinator**. **FriendMapViewController** is a standalone view that presents modally, so we set it up as its own nib. As you've seen before, we can mix and match different types of coordinators in our app. Just like with StoryboardCoordinator, you can subclass NibCoordinator. Here's our example:
+```swift
+import UIKit
+import GoCoordinator
+
+class FriendMapCoordinator: NibCoordinator<FriendMapViewController> {
+    
+    private let friend: Contact
+    
+    init(friend: Contact) {
+        self.friend = friend
+    }
+    
+    override func start() throws {
+        viewController.friend = friend
+        try super.start()
+    }
+}
+```
+Looks familiar, right? Now, just like with **FriendInfoCoordinator**, we need an elegant way to present it. We could just add a custom method to our other coordinaors, or we could just make a Coordinator extension. Coordinator extensions are usually preferred for standalone views, so they become globally accessible. We can go ahead and put the extension right away in the same class file as the **FriendMapCoordinator** declaration, like so:
+```swift
+extension Coordinator {
+    func presentFriendMap(friend: Contact) {
+        let root = FriendMapCoordinator(friend: friend)
+        let coordinator = UINavigationCoordinator(root: root.asAnyCoordinator())
+        present(coordinator: coordinator.asAnyCoordinator())
+    }
+}
+```
+Remember, the "go" hook accesses generic coordinator methods, so by adding *presentFriendMap* to Coordinator, we can call it generically like we do in **FriendInfoViewController**:
+```swift
+go.presentFriendMap(friend: friend)
+```
+That's all there is to it! Through coordinator subclassing, you can streamline the instantiation of your views as well as providing more means for your views to communicate to your coordinators. It also allows you to incorporate patterns such as Delegate (as you can see in the example) and MVVM.
