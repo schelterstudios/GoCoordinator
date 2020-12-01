@@ -184,12 +184,12 @@
 		AAB901AC253BEAD800311307 /* GoCoordinatorTests */ = {
 			isa = PBXGroup;
 			children = (
-				AA745384255C80D700B6CA1F /* UIKitControllerTests.swift */,
 				AA0109772540BA5C00FA8360 /* TestableViewController.xib */,
 				AA0108E6253FA49800FA8360 /* TestableStoryboard.storyboard */,
 				AA3CCD62253D493F00CD706F /* TestableSubClasses.swift */,
 				AAB901AD253BEAD800311307 /* LifecycleTests.swift */,
 				AA78A633253F534C00E84996 /* NavigationTests.swift */,
+				AA745384255C80D700B6CA1F /* UIKitControllerTests.swift */,
 				AAB901AF253BEAD800311307 /* Info.plist */,
 			);
 			path = GoCoordinatorTests;
@@ -688,6 +688,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUTA3PBZC8;
 				INFOPLIST_FILE = GoCoordinatorExamples/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -707,6 +708,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = LUTA3PBZC8;
 				INFOPLIST_FILE = GoCoordinatorExamples/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

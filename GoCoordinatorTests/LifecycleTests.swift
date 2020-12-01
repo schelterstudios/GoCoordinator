@@ -82,6 +82,9 @@ class LifecycleTests: XCTestCase {
             XCTAssertNotNil(weakVC2)
             XCTAssertNotEqual(weakVC1, weakVC2)
             
+            // Verify coordinator is accessible from view controller
+            XCTAssertNotNil(weakVC1?.go(as: ManualCoordinator.self))
+            
             mc1 = nil
             mc2 = nil
         }
@@ -107,6 +110,9 @@ class LifecycleTests: XCTestCase {
             
             // Verify view controller is loaded
             XCTAssertEqual(weakVC?.loadedValue, 89)
+            
+            // Verify coordinator is accessible from view controller
+            XCTAssertNotNil(weakVC?.go(as: TestableNibCoordinator.self))
             
             tnc = nil
         }
@@ -150,6 +156,10 @@ class LifecycleTests: XCTestCase {
             // Verify view controllers are loaded
             XCTAssertEqual(weakVC1?.loadedValue, 72)
             XCTAssertEqual(weakVC2?.loadedValue, 73)
+            
+            // Verify coordinator is accessible from view controller
+            XCTAssertNotNil(weakVC1?.go(as: TestableStoryboardCoordinator.self))
+            XCTAssertNotNil(weakVC2?.go(as: TestableStoryboardSubCoordinator.self))
             
             sbc1 = nil
             sbc2 = nil
@@ -226,6 +236,9 @@ class LifecycleTests: XCTestCase {
             // Verify view controller is loaded and added to navigation
             XCTAssertEqual(weakVC1?.loadedValue, 70)
             XCTAssertNotNil(weakVC1?.navigationController)
+            
+            // Verify navigation coordinator is accessible from view controller
+            XCTAssertNotNil(weakVC1?.go(as: UINavigationCoordinator.self))
         
             // Push NibC2 to NavC
             XCTAssertNoThrow(try weakVC1?.go.push(coordinator: strongNibC2!.asAnyCoordinator()))
