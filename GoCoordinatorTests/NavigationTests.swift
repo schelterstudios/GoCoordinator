@@ -101,24 +101,23 @@ class NavigationTests: XCTestCase {
         XCTAssertNil(weakC4?.parent)
     }
     
-    func testStoryboardPushAndPop() {
-        var tsc: TestableStoryboardCoordinator!
+    func testStoryboardPushAndPop() throws {
         weak var weakC1: TestableStoryboardSubCoordinator?
         weak var weakC2: TestableStoryboardSubCoordinator?
         weak var weakC3: TestableNibCoordinator?
         
-        tsc = TestableStoryboardCoordinator()
-        var strongC1: TestableStoryboardSubCoordinator? = TestableStoryboardSubCoordinator(owner: tsc, identifier: "child")
+        let root = TestableStoryboardCoordinator()
+        var strongC1: TestableStoryboardSubCoordinator? = TestableStoryboardSubCoordinator(owner: root, identifier: "child")
         var strongC2: TestableStoryboardSubCoordinator? = TestableStoryboardSubCoordinator(owner: strongC1!, identifier: "child")
         var strongC3: TestableNibCoordinator? = TestableNibCoordinator()
         weakC1 = strongC1
         weakC2 = strongC2
         weakC3 = strongC3
-        XCTAssertNoThrow(try tsc.start())
-        XCTAssertNoThrow(try tsc?.push(coordinator: strongC1!.asAnyCoordinator(), animated: false))
+        XCTAssertNoThrow(try root.start())
+        XCTAssertNoThrow(try root.push(coordinator: strongC1!.asAnyCoordinator(), animated: false))
         
         // Verify that only c1 is in the stack
-        XCTAssert(weakC1?.parent === tsc)
+        XCTAssert(weakC1?.parent === root)
         XCTAssertNil(weakC2?.parent)
         XCTAssertNil(weakC3?.parent)
         
@@ -126,7 +125,7 @@ class NavigationTests: XCTestCase {
         XCTAssertNoThrow(try weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false))
         
         // Verify that c2, c3, and c4 are now in the stack
-        XCTAssert(weakC1?.parent === tsc)
+        XCTAssert(weakC1?.parent === root)
         XCTAssert(weakC2?.parent === strongC1)
         XCTAssert(weakC3?.parent === strongC2)
         
@@ -136,21 +135,83 @@ class NavigationTests: XCTestCase {
         weakC3?.viewController.go?.pop()
         
         // Verify that c3 is no longer in the stack
-        XCTAssert(weakC1?.parent === tsc)
+        XCTAssert(weakC1?.parent === root)
         XCTAssert(weakC2?.parent === weakC1)
         XCTAssertNil(weakC3?.parent)
         
         weakC1?.viewController.go?.pop()
         
         // Verify that c1 and c2 are no longer in the stack, and that top is now root
-        XCTAssert(tsc?.viewController.viewControllers.first === tsc?.viewController.topViewController)
+        XCTAssert(root.viewController.viewControllers.first === root.viewController.topViewController)
         XCTAssertNil(weakC1?.parent)
         XCTAssertNil(weakC2?.parent)
         XCTAssertNil(weakC3?.parent)
         
-        tsc?.viewController.topViewController?.go?.pop()
+        root.viewController.topViewController?.go?.pop()
         
         // Verify that tsc is unchanged (can't pop because it's root)
-        XCTAssert(tsc?.viewController.viewControllers.first === tsc?.viewController.topViewController)
+        XCTAssert(root.viewController.viewControllers.first === root.viewController.topViewController)
+    }
+    
+    func testPresentAndDismissNavigation() throws {
+        weak var weakC1: TestableNibCoordinator?
+        weak var weakC2: TestableNibCoordinator?
+        
+        let root = TestableNibCoordinator()
+        var strongC1: TestableNibCoordinator? = TestableNibCoordinator()
+        var strongC2: TestableNibCoordinator? = TestableNibCoordinator()
+        weakC1 = strongC1
+        weakC2 = strongC2
+        XCTAssertNoThrow(try root.start())
+        root.present(coordinator: strongC1!.asAnyCoordinator())
+        strongC1 = nil
+        
+        // Verify that only c1 is in the stack
+        XCTAssert(weakC1?.presenting === root)
+        XCTAssertNil(weakC2?.presenting)
+        
+        weakC1?.present(coordinator: strongC2!.asAnyCoordinator())
+        strongC2 = nil
+        
+        // Verify that c1 and c2 are in the stack
+        XCTAssert(weakC1?.presenting === root)
+        XCTAssert(weakC2?.presenting === weakC1)
+        
+        weakC1?.viewController.go.dismiss()
+        
+        // Verify that c1 and c2 are no longer in the stack
+        XCTAssertNil(weakC1?.presenting)
+        XCTAssertNil(weakC2?.presenting)
+    }
+    
+    func testPresentAndReplaceNavigation() throws {
+        weak var weakC1: TestableNibCoordinator?
+        weak var weakC2: TestableNibCoordinator?
+        
+        let root = TestableNibCoordinator()
+        var strongC1: TestableNibCoordinator? = TestableNibCoordinator()
+        var strongC2: TestableNibCoordinator? = TestableNibCoordinator()
+        weakC1 = strongC1
+        weakC2 = strongC2
+        XCTAssertNoThrow(try root.start())
+        root.present(coordinator: strongC1!.asAnyCoordinator())
+        strongC1 = nil
+        
+        // Verify that only c1 is in the stack
+        XCTAssert(weakC1?.presenting === root)
+        XCTAssertNil(weakC2?.presenting)
+        
+        root.present(coordinator: strongC2!.asAnyCoordinator())
+        strongC2 = nil
+        
+        // Verify that only c2 is in the stack
+        XCTAssertNil(weakC1?.presenting)
+        XCTAssert(weakC2?.presenting === root)
+        
+        weakC2?.viewController.go.dismiss()
+        
+        // Verify that c1 and c2 are no longer in the stack
+        XCTAssertNil(weakC1?.presenting)
+        XCTAssertNil(weakC2?.presenting)
     }
 }

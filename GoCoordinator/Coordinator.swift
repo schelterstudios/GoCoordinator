@@ -238,10 +238,10 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
             presented.dismiss(animated: animated) {
                 completion?(nil)
             }
-            presentedChild?.parent = nil
+            presentedChild?.presenting = nil
             presentedChild = nil
         } else {
-            presentedChild?.parent = nil
+            presentedChild?.presenting = nil
             presentedChild = nil
             completion?(nil)
         }

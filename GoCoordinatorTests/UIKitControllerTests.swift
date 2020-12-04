@@ -37,46 +37,46 @@ class UIKitControllerTests: XCTestCase {
     }
 
     func testAlertCoordinator() throws {
-        weak var weakAC: UIAlertCoordinator?
-        weak var weakAVC: UIAlertController?
+        weak var weakCoordinator: UIAlertCoordinator?
+        weak var weakViewController: UIAlertController?
         
         try autoreleasepool {
-            var strongNibC: TestableNibCoordinator? = TestableNibCoordinator()
+            var strongParent: TestableNibCoordinator? = TestableNibCoordinator()
             
             // Set the alert coordinator's values and actions, but not loaded or presented
-            var strongAC: UIAlertCoordinator? = UIAlertCoordinator(title:"My Title", message:"My Message", preferredStyle: .alert)
-            strongAC?.addAction(title: "OK", style: .default)
-            weakAC = strongAC
-            weakAVC = strongAC?.viewController
+            var strongCoordinator: UIAlertCoordinator? = UIAlertCoordinator(title:"My Title", message:"My Message", preferredStyle: .alert)
+            strongCoordinator?.addAction(title: "OK", style: .default)
+            weakCoordinator = strongCoordinator
+            weakViewController = strongCoordinator?.viewController
             
             // Verify controller is still allocated, but not loaded or presented
-            XCTAssertNotNil(weakAC)
-            XCTAssertNotNil(weakAVC)
-            XCTAssertNotEqual(weakAC?.actions.count, weakAVC?.actions.count)
-            XCTAssertTrue(weakAVC?.isBeingPresented == false)
+            XCTAssertNotNil(weakCoordinator)
+            XCTAssertNotNil(weakViewController)
+            XCTAssertNotEqual(weakCoordinator?.actions.count, weakViewController?.actions.count)
+            XCTAssertTrue(weakViewController?.isBeingPresented == false)
             
             // Present coordinator
-            XCTAssertNoThrow(try strongNibC?.start())
-            strongNibC?.present(coordinator: strongAC!.asAnyCoordinator())
-            strongAC = nil
+            XCTAssertNoThrow(try strongParent?.start())
+            strongParent?.present(coordinator: strongCoordinator!.asAnyCoordinator())
+            strongCoordinator = nil
             
             // Verify controller is loaded and presented
-            XCTAssertNotNil(weakAC)
-            XCTAssertNotNil(weakAVC)
-            XCTAssertEqual(weakAC?.actions.count, weakAVC?.actions.count)
-            XCTAssert(weakAC?.presenting as? TestableNibCoordinator === strongNibC)
+            XCTAssertNotNil(weakCoordinator)
+            XCTAssertNotNil(weakViewController)
+            XCTAssertEqual(weakCoordinator?.actions.count, weakViewController?.actions.count)
+            XCTAssert(weakCoordinator?.presenting as? TestableNibCoordinator === strongParent)
             
             // Trigger OK Action
-            weakAC?.triggerAction(titled: "OK")
+            weakCoordinator?.triggerAction(titled: "OK")
             
             // Verify controller is dismissed
-            XCTAssertNil(weakAC?.presenting)
+            XCTAssertNil(weakCoordinator?.presenting)
             
-            strongNibC = nil
+            strongParent = nil
         }
         
         // Verify controller is deallocated
-        XCTAssertNil(weakAC)
+        XCTAssertNil(weakCoordinator)
     }
     
     func testImagePickerCoordinator() throws {
@@ -118,80 +118,80 @@ class UIKitControllerTests: XCTestCase {
     }
     
     func testActivityCoordinator() throws {
-        weak var weakAC: UIActivityViewCoordinator?
-        weak var weakAVC: UIActivityViewController?
+        weak var weakCoordinator: UIActivityViewCoordinator?
+        weak var weakViewController: UIActivityViewController?
         
         try autoreleasepool {
-            var strongNibC: TestableNibCoordinator? = TestableNibCoordinator()
+            var strongParent: TestableNibCoordinator? = TestableNibCoordinator()
             
             // Set the activity coordinator's values and, but not loaded or presented
-            var strongAC: UIActivityViewCoordinator? = UIActivityViewCoordinator(activityItems: [], applicationActivities: nil)
-            strongAC?.excludedActivityTypes = [.airDrop]
-            weakAC = strongAC
-            weakAVC = strongAC?.viewController
+            var strongCoordinator: UIActivityViewCoordinator? = UIActivityViewCoordinator(activityItems: [], applicationActivities: nil)
+            strongCoordinator?.excludedActivityTypes = [.airDrop]
+            weakCoordinator = strongCoordinator
+            weakViewController = strongCoordinator?.viewController
             
             // Verify controller is still allocated, but not loaded or presented
-            XCTAssertNotNil(weakAC)
-            XCTAssertNotNil(weakAVC)
-            XCTAssertNotEqual(weakAC?.excludedActivityTypes?.count, weakAVC?.excludedActivityTypes?.count)
-            XCTAssertTrue(weakAVC?.isBeingPresented == false)
+            XCTAssertNotNil(weakCoordinator)
+            XCTAssertNotNil(weakViewController)
+            XCTAssertNotEqual(weakCoordinator?.excludedActivityTypes?.count, weakViewController?.excludedActivityTypes?.count)
+            XCTAssertTrue(weakViewController?.isBeingPresented == false)
             
             // Present coordinator
-            XCTAssertNoThrow(try strongNibC?.start())
-            strongNibC?.present(coordinator: strongAC!.asAnyCoordinator())
-            strongAC = nil
+            XCTAssertNoThrow(try strongParent?.start())
+            strongParent?.present(coordinator: strongCoordinator!.asAnyCoordinator())
+            strongCoordinator = nil
             
             // Verify controller is loaded and presented
-            XCTAssertNotNil(weakAC)
-            XCTAssertNotNil(weakAVC)
-            XCTAssertEqual(weakAC?.excludedActivityTypes?.count, weakAVC?.excludedActivityTypes?.count)
-            XCTAssert(weakAC?.presenting as? TestableNibCoordinator === strongNibC)
+            XCTAssertNotNil(weakCoordinator)
+            XCTAssertNotNil(weakViewController)
+            XCTAssertEqual(weakCoordinator?.excludedActivityTypes?.count, weakViewController?.excludedActivityTypes?.count)
+            XCTAssert(weakCoordinator?.presenting as? TestableNibCoordinator === strongParent)
             
             // Deallocate parent
-            strongNibC = nil
+            strongParent = nil
         }
         
         // Verify controller is deallocated
-        XCTAssertNil(weakAC)
+        XCTAssertNil(weakCoordinator)
     }
     
     @available(iOS 14.0, *)
     func testActivityCoordinatorWithConfig() throws {
-        weak var weakAC: UIActivityViewCoordinator?
-        weak var weakAVC: UIActivityViewController?
+        weak var weakCoordinator: UIActivityViewCoordinator?
+        weak var weakViewController: UIActivityViewController?
         
         try autoreleasepool {
-            var strongNibC: TestableNibCoordinator? = TestableNibCoordinator()
+            var strongParent: TestableNibCoordinator? = TestableNibCoordinator()
             
             // Set the activity coordinator's values and, but not loaded or presented
             let config = UIActivityItemsConfiguration(itemProviders: [])
-            var strongAC: UIActivityViewCoordinator? = UIActivityViewCoordinator(activityItemsConfiguration: config)
-            strongAC?.excludedActivityTypes = [.airDrop]
-            weakAC = strongAC
-            weakAVC = strongAC?.viewController
+            var strongCoordinator: UIActivityViewCoordinator? = UIActivityViewCoordinator(activityItemsConfiguration: config)
+            strongCoordinator?.excludedActivityTypes = [.airDrop]
+            weakCoordinator = strongCoordinator
+            weakViewController = strongCoordinator?.viewController
             
             // Verify controller is still allocated, but not loaded or presented
-            XCTAssertNotNil(weakAC)
-            XCTAssertNotNil(weakAVC)
-            XCTAssertNotEqual(weakAC?.excludedActivityTypes?.count, weakAVC?.excludedActivityTypes?.count)
-            XCTAssertTrue(weakAVC?.isBeingPresented == false)
+            XCTAssertNotNil(weakCoordinator)
+            XCTAssertNotNil(weakViewController)
+            XCTAssertNotEqual(weakCoordinator?.excludedActivityTypes?.count, weakViewController?.excludedActivityTypes?.count)
+            XCTAssertTrue(weakViewController?.isBeingPresented == false)
             
             // Present coordinator
-            XCTAssertNoThrow(try strongNibC?.start())
-            strongNibC?.present(coordinator: strongAC!.asAnyCoordinator())
-            strongAC = nil
+            XCTAssertNoThrow(try strongParent?.start())
+            strongParent?.present(coordinator: strongCoordinator!.asAnyCoordinator())
+            strongCoordinator = nil
             
             // Verify controller is loaded and presented
-            XCTAssertNotNil(weakAC)
-            XCTAssertNotNil(weakAVC)
-            XCTAssertEqual(weakAC?.excludedActivityTypes?.count, weakAVC?.excludedActivityTypes?.count)
-            XCTAssert(weakAC?.presenting as? TestableNibCoordinator === strongNibC)
+            XCTAssertNotNil(weakCoordinator)
+            XCTAssertNotNil(weakViewController)
+            XCTAssertEqual(weakCoordinator?.excludedActivityTypes?.count, weakViewController?.excludedActivityTypes?.count)
+            XCTAssert(weakCoordinator?.presenting as? TestableNibCoordinator === strongParent)
             
             // Deallocate parent
-            strongNibC = nil
+            strongParent = nil
         }
         
         // Verify controller is deallocated
-        XCTAssertNil(weakAC)
+        XCTAssertNil(weakCoordinator)
     }
 }
