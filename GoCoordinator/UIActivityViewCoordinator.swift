@@ -25,6 +25,7 @@
 import Foundation
 import UIKit.UIActivityViewController
 
+/// Coordinator for activity view controllers
 open class UIActivityViewCoordinator: CoordinatorBase<UIActivityViewController> {
     
     public var excludedActivityTypes: [UIActivity.ActivityType]?
@@ -47,6 +48,7 @@ open class UIActivityViewCoordinator: CoordinatorBase<UIActivityViewController> 
         self.activityItemsConfiguration = activityItemsConfiguration
     }
     
+    /// Starts the view controller.
     public final override func start() throws {
         viewController.excludedActivityTypes = excludedActivityTypes
         viewController.completionWithItemsHandler = completionWithItemsHandler

@@ -25,6 +25,7 @@
 import Foundation
 import UIKit.UIAlertController
 
+/// Coordinator for alert controllers
 open class UIAlertCoordinator: CoordinatorBase<UIAlertController> {
     
     private let title: String?

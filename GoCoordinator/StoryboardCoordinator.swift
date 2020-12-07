@@ -86,6 +86,43 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
         self._storyboardName = nil
         self.identifier = nil
     }
+    
+    // NOTE: Overriding CoordinatorBase to fix autocompletion bug
+    /// Starts the view controller.
+    open override func start() throws {
+        try super.start()
+    }
+
+    /// Pushes a coordinator onto the receiver's stack and starts it.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to push onto the stack. Must be wrapped to `AnyCoordinator`.
+    ///     - animated: Flag used to animate the stack's navigation controller.
+    final public override func push(coordinator: AnyCoordinator, animated: Bool) throws {
+        try super.push(coordinator: coordinator, animated: animated)
+    }
+
+    /// Pops the coordinator from the stack.
+    final public override func pop() {
+        super.pop()
+    }
+
+    /// Presents a coordinator modally.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to present. Must be wrapped to `AnyCoordinator`.
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
+    final public override func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
+        super.present(coordinator: coordinator, completion: completion)
+    }
+
+    /// Dismisses the coordinator that was presented modally.
+    /// - Parameters:
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
+    final public override func dismiss(completion: ((Error?)->Void)?) {
+        super.dismiss(completion: completion)
+    }
+    // /////////
 
     override func instantiateViewController() throws -> VC {
         let bundle = Bundle(for: Self.self)

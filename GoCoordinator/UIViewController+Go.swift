@@ -95,10 +95,12 @@ final class CoordinatorLinker {
 
 extension UIViewController {
     
+    /// Hook for the view controller to access its coordinator.
     public var go: AnyCoordinator! {
         get { return CoordinatorLinker.linker.anyCoordinatorForController(self)! }
     }
     
+    /// Hook for the view controller to access its coordinator of a specified class type.
     public func go<C:CoordinatorNavigator>(as type: C.Type) -> C {
         return CoordinatorLinker.linker.coordinatorForController(self)!
     }

@@ -25,6 +25,7 @@
 import Foundation
 import UIKit.UIImagePickerController
 
+/// Coordinator for image picker controllers
 open class UIImagePickerCoordinator: CoordinatorBase<UIImagePickerController> {
     
     public weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?

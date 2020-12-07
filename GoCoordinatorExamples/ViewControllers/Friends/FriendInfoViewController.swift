@@ -41,12 +41,6 @@ class FriendInfoViewController: UIViewController {
         super.viewDidLoad()
         firstNameLabel.text = friend.firstName
         lastNameLabel.text = friend.lastName
-        let coord: ManualCoordinator
-        let coord2: NibCoordinator = NibCoordinator<UIViewController>()
-        let coord3: StoryboardCoordinator = StoryboardCoordinator<UIViewController>()
-        coord2
-        //coord3.push(coordinator: <#T##AnyCoordinator#>)
-        //coo
     }
     
     @IBAction func showMap(_ sender: Any?) {

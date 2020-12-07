@@ -69,11 +69,11 @@ class LifecycleTests: XCTestCase {
         weak var weakVC2: UIViewController?
         
         try autoreleasepool {
-            var mc1: ManualCoordinator? = ManualCoordinator(block: block)
+            var mc1: ManualCoordinator? = ManualCoordinator(block)
             XCTAssertNoThrow(try mc1?.start())
             weakVC1 = mc1?.viewController
             
-            var mc2: ManualCoordinator? = ManualCoordinator(block: block)
+            var mc2: ManualCoordinator? = ManualCoordinator(block)
             XCTAssertNoThrow(try mc2?.start())
             weakVC2 = mc2?.viewController
             
