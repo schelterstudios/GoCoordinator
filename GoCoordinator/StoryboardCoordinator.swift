@@ -24,10 +24,16 @@
 //  THE SOFTWARE.
 
 import Foundation
-import class UIKit.UIViewController
-import class UIKit.UIStoryboard
+import UIKit.UIViewController
+import UIKit.UIStoryboard
 
+/// Designates an object as a storyboard owner for use by storyboard coordinators. All
+/// storyboard coordinators are already storyboard owners, and should be used in most
+/// cases when initializing new storyboard coordinators from the same storyboard.
 public protocol StoryboardOwner {
+    
+    /// The name of the storyboard used for instantiation. This value is derived based on the
+    /// initialization used for the coordinator.
     var storyboardName: String { get }
 }
 
@@ -38,6 +44,7 @@ enum StoryboardCoordinatorError: Error {
     case wrongViewControllerType(String)
 }
 
+/// Coordinator for storyboard view controllers
 open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, StoryboardOwner {
     
     private var _storyboardName: String?
@@ -52,43 +59,34 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
     
     private let identifier: String?
     
+    /// Creates a storyboard coordinator using the same storyboard as the storyboard owner.
+    /// - Parameters:
+    ///     - owner: A storyboard owner. Usually this would be another coordinator from the
+    ///     same storyboard.
+    ///     - identifier: The Storyboard ID used for the view controller.
     public init(owner: StoryboardOwner, identifier: String) {
         self._storyboardName = owner.storyboardName
         self.identifier = identifier
     }
     
-    public init(storyboardName: String, identifier: String) {
+    /// Creates a storyboard coordinator using a storyboard with the given name.
+    /// - Parameters:
+    ///     - storyboardName: The name of the storyboard.
+    ///     - identifier: The Storyboard ID used for the view controller or `nil` if view
+    ///     controller is the initial view controller of the storyboard. Default is `nil`.
+    public init(storyboardName: String, identifier: String? = nil) {
         self._storyboardName = storyboardName
         self.identifier = identifier
     }
     
+    /// Creates a storyboard coordinator using a storyboard with the same name as the prefix
+    /// of the class name (ie. `MainCoordinator` would use storyboard named `Main`). The view
+    /// controller must be the initial view controller of the storyboard.
     public override init() {
         self._storyboardName = nil
         self.identifier = nil
     }
 
-    // NOTE: Overriding CoordinatorBase to fix autocompletion bug
-    open override func start() throws {
-        try super.start()
-    }
-    
-    final public override func push(coordinator: AnyCoordinator, animated: Bool) throws {
-        try super.push(coordinator: coordinator, animated: animated)
-    }
-        
-    final public override func pop() {
-        super.pop()
-    }
-    
-    final public override func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
-        super.present(coordinator: coordinator, completion: completion)
-    }
-    
-    final public override func dismiss(completion: ((Error?)->Void)?) {
-        super.dismiss(completion: completion)
-    }
-    // /////////
-    
     override func instantiateViewController() throws -> VC {
         let bundle = Bundle(for: Self.self)
         guard bundle.path(forResource: storyboardName, ofType: "storyboardc") != nil else {

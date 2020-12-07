@@ -35,18 +35,49 @@ public enum CoordinatorError: Error {
     case dismissalRejected
 }
 
+/// Navigation methods for coordinators.
 public protocol CoordinatorNavigator: class {
+    
+    /// The coordinator that pushed this coordinator.
     var parent: CoordinatorParent? { get set }
+    
+    /// The coordinator that presented this coordinator.
     var presenting: CoordinatorParent? { get set }
+    
+    /// If false, prevents the coordinator from being dismissed. Default is `true`.
     var allowDismissal: Bool { get set }
  
+    /// Pushes a coordinator onto the receiver's stack and starts it.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to push onto the stack. Must be wrapped to `AnyCoordinator`.
+    ///     - animated: Flag used to animate the stack's navigation controller.
     func push(coordinator: AnyCoordinator, animated: Bool) throws
+    
+    /// Pops the coordinator from the stack.
     func pop()
+    
+    /// Presents a coordinator modally.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to present. Must be wrapped to `AnyCoordinator`.
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
     func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?)
+    
+    /// Dismisses the coordinator that was presented modally.
+    /// - Parameters:
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
     func dismiss(completion: ((Error?)->Void)?)
 }
 
 public extension CoordinatorNavigator {
+    
+    /// Pushes a coordinator if it can be pushed, otherwise presents it.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to push or present. Must be wrapped to `AnyCoordinator`.
+    ///     - animated: Flag used to animate the stack's navigation controller.
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
     func pushOrPresent(coordinator: AnyCoordinator, animated: Bool = true,
                        completion: ((Error?)->Void)? = nil) {
         do {
@@ -57,6 +88,10 @@ public extension CoordinatorNavigator {
         }
     }
     
+    /// Pops a coordinator if it can be popped, otherwise dismisses it.
+    /// - Parameters:
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
     func popOrDismiss(completion: ((Error?)->Void)? = nil) {
         if parent != nil {
             pop()
@@ -66,26 +101,40 @@ public extension CoordinatorNavigator {
         }
     }
     
+    /// Pushes a coordinator onto the receiver's stack and starts it.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to push onto the stack. Must be wrapped to `AnyCoordinator`.
     func push(coordinator: AnyCoordinator) throws {
         try push(coordinator: coordinator, animated: true)
     }
     
+    /// Presents a coordinator modally.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to present. Must be wrapped to `AnyCoordinator`.
     func present(coordinator: AnyCoordinator) {
         present(coordinator: coordinator, completion: nil)
     }
     
+    /// Dismisses the coordinator that was presented modally.
     func dismiss() {
         dismiss(completion: nil)
     }
 }
 
+/// Concretion erasure for coordinators.
 public protocol CoordinatorAbstractor: class {
+    
+    /// Wraps the coordinator to an `AnyCoordinator` object.
     func asAnyCoordinator() -> AnyCoordinator
 }
 
 public protocol Coordinator: CoordinatorNavigator, CoordinatorAbstractor {
     associatedtype VC: UIViewController
+    
+    /// The view controller instantiated by the coordinator.
     var viewController: VC { get }
+    
+    /// Starts the view controller.
     func start() throws
 }
 
@@ -95,8 +144,19 @@ public extension Coordinator {
     }
 }
 
+/// Parent methods for coordinators.
 public protocol CoordinatorParent: class {
+    
+    /// Pops the child coordinator from the stack.
+    /// - Parameters:
+    ///     - animated: Flag used to animate the stack's navigation controller.
     func popChild(animated: Bool)
+    
+    /// Dismisses the child coordinator from the stack.
+    /// - Parameters:
+    ///     - animated: Flag used to animate the stack's navigation controller.
+    ///     - completion: The block to execute after the presentation finishes.
+    ///         - error: Error if one occurred, otherwise nil.
     func dismissPresented(animated: Bool, completion: ((Error?)->Void)?)
 }
 
@@ -252,6 +312,7 @@ open class CoordinatorBase<VC: UIViewController>: Coordinator, CoordinatorParent
     }
 }
 
+/// Concretion erasure wrapper for coordinators.
 public class AnyCoordinator: Coordinator {
     
     public var viewController: UIViewController { return wrappedVC() }
@@ -284,6 +345,9 @@ public class AnyCoordinator: Coordinator {
     private let wrappedPresent: (AnyCoordinator, ((Error?)->Void)?) -> Void
     private let wrappedDismiss: (((Error?)->Void)?) -> Void
     
+    /// Creates a wrapper for the coordinator.
+    /// - Parameters:
+    ///     - coordinator: The coordinator to wrap.
     init<C: Coordinator>(_ coordinator: C) {
         wrappedVC = { coordinator.viewController }
         wrappedParentGetter = { coordinator.parent }

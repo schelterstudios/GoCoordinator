@@ -26,42 +26,32 @@
 import Foundation
 import UIKit.UIViewController
 
+/// Coordinator for manually coded view controllers
 open class ManualCoordinator: CoordinatorBase<UIViewController> {
     
-    private let block: () -> UIViewController
+    private let factory: () -> UIViewController
     
-    public init(block: @escaping ()->UIViewController ) {
-        self.block = block
+    /// Creates a manual coordinator whose view controller is provided by the given closure.
+    /// - Parameters:
+    ///     - factory: A closure that returns a view controller instance.
+    public init(_ factory: @escaping ()->UIViewController ) {
+        self.factory = factory
     }
     
+    /// Creates a manual coordinator using the provided view controller.
+    /// - Parameters:
+    ///     - viewController: The view controller to be used by the coordinator.
     public init(viewController: UIViewController) {
-        self.block = { viewController }
+        self.factory = { viewController }
     }
     
+    /// Starts the view controller.
     open override func start() throws {
         try super.start()
         viewController.viewDidLoad()
     }
     
-    // NOTE: Overriding CoordinatorBase to fix autocompletion bug    
-    final public override func push(coordinator: AnyCoordinator, animated: Bool) throws {
-        try super.push(coordinator: coordinator, animated: animated)
-    }
-        
-    final public override func pop() {
-        super.pop()
-    }
-    
-    final public override func present(coordinator: AnyCoordinator, completion: ((Error?)->Void)?) {
-        super.present(coordinator: coordinator, completion: completion)
-    }
-    
-    final public override func dismiss(completion: ((Error?)->Void)?) {
-        super.dismiss(completion: completion)
-    }
-    // /////////
-    
     override func instantiateViewController() throws -> UIViewController {
-        return block()
+        return factory()
     }
 }

@@ -54,13 +54,13 @@ class NavigationTests: XCTestCase {
             weakC4 = strongC4
             nc = UINavigationCoordinator(root: strongC1!.asAnyCoordinator())
             XCTAssertNoThrow(try nc.start())
-            
+        
             // Verify that only c1 is in the stack
             XCTAssert(weakC1?.parent === nc)
             XCTAssertNil(weakC2?.parent)
             XCTAssertNil(weakC3?.parent)
             XCTAssertNil(weakC4?.parent)
-            
+
             XCTAssertNoThrow(try weakC1?.push(coordinator: strongC2!.asAnyCoordinator(), animated: false))
             XCTAssertNoThrow(try weakC2?.push(coordinator: strongC3!.asAnyCoordinator(), animated: false))
             XCTAssertNoThrow(try weakC3?.push(coordinator: strongC4!.asAnyCoordinator(), animated: false))
@@ -169,7 +169,6 @@ class NavigationTests: XCTestCase {
         // Verify that only c1 is in the stack
         XCTAssert(weakC1?.presenting === root)
         XCTAssertNil(weakC2?.presenting)
-        
         weakC1?.present(coordinator: strongC2!.asAnyCoordinator())
         strongC2 = nil
         
