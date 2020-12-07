@@ -45,7 +45,7 @@ open class UINavigationCoordinator: CoordinatorBase<UINavigationController> {
         try push(coordinator: root, animated: false)
     }
     
-    override func instantiateViewController() throws -> UINavigationController {
+    final override func instantiateViewController() throws -> UINavigationController {
         return UINavigationController()
     }
 }

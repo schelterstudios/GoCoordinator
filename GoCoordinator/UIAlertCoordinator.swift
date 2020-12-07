@@ -71,7 +71,7 @@ open class UIAlertCoordinator: CoordinatorBase<UIAlertController> {
         try super.start()
     }
     
-    override func instantiateViewController() throws -> UIAlertController {
+    final override func instantiateViewController() throws -> UIAlertController {
         return UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
     }
 }

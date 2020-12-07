@@ -72,7 +72,7 @@ open class UIImagePickerCoordinator: CoordinatorBase<UIImagePickerController> {
         try super.start()
     }
     
-    override func instantiateViewController() throws -> UIImagePickerController {
+    final override func instantiateViewController() throws -> UIImagePickerController {
         return UIImagePickerController()
     }
 }

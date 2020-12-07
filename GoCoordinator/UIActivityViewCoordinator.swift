@@ -55,7 +55,7 @@ open class UIActivityViewCoordinator: CoordinatorBase<UIActivityViewController> 
         try super.start()
     }
     
-    override func instantiateViewController() throws -> UIActivityViewController {
+    final override func instantiateViewController() throws -> UIActivityViewController {
         if let activityItems = self.activityItems {
             return UIActivityViewController(activityItems: activityItems,
                                             applicationActivities: applicationActivities)

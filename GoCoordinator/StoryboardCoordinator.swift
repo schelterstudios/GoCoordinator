@@ -124,7 +124,7 @@ open class StoryboardCoordinator<VC: UIViewController>: CoordinatorBase<VC>, Sto
     }
     // /////////
 
-    override func instantiateViewController() throws -> VC {
+    final override func instantiateViewController() throws -> VC {
         let bundle = Bundle(for: Self.self)
         guard bundle.path(forResource: storyboardName, ofType: "storyboardc") != nil else {
             throw StoryboardCoordinatorError.missingStoryboard(storyboardName)

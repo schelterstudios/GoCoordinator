@@ -75,7 +75,7 @@ open class NibCoordinator<VC: UIViewController>: CoordinatorBase<VC> {
     }
     // /////////
     
-    override func instantiateViewController() throws -> VC {
+    final override func instantiateViewController() throws -> VC {
         let bundle = Bundle(for: VC.self)
         let nibName = NSStringFromClass(VC.self).components(separatedBy: ".").last!
         guard bundle.path(forResource: nibName, ofType: "nib") != nil else {

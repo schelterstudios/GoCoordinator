@@ -83,7 +83,7 @@ open class ManualCoordinator: CoordinatorBase<UIViewController> {
     }
     // /////////
     
-    override func instantiateViewController() throws -> UIViewController {
+    final override func instantiateViewController() throws -> UIViewController {
         return factory()
     }
 }
