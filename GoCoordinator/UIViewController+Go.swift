@@ -105,3 +105,30 @@ extension UIViewController {
         return CoordinatorLinker.linker.coordinatorForController(self)!
     }
 }
+
+import class UIKit.UIView
+import class UIKit.UIResponder
+
+extension UIView {
+    
+    /// Hook for views to access their controller's coordinator.
+    public var go: AnyCoordinator? {
+        get { return viewController?.go }
+    }
+    
+    /// Hook for views to access their controller's coordinator of a specified class type.
+    public func go<C:CoordinatorNavigator>(as type: C.Type) -> C? {
+        return viewController?.go(as: type)
+    }
+    
+    private var viewController: UIViewController? {
+        var parentResponder: UIResponder? = self.next
+        while parentResponder != nil {
+            if let viewController = parentResponder as? UIViewController {
+                return viewController
+            }
+            parentResponder = parentResponder?.next
+        }
+        return nil
+    }
+}

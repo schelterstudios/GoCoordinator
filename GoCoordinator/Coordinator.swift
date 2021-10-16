@@ -122,7 +122,7 @@ public extension CoordinatorNavigator {
 }
 
 /// Concretion erasure for coordinators.
-public protocol CoordinatorAbstractor: class {
+public protocol CoordinatorAbstractor: AnyObject {
     
     /// Wraps the coordinator to an `AnyCoordinator` object.
     func asAnyCoordinator() -> AnyCoordinator
@@ -145,7 +145,7 @@ public extension Coordinator {
 }
 
 /// Parent methods for coordinators.
-public protocol CoordinatorParent: class {
+public protocol CoordinatorParent: AnyObject {
     
     /// Pops the child coordinator from the stack.
     /// - Parameters:
