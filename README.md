@@ -9,7 +9,7 @@
 
 # Installation
  To add to your project, insert the following into your Podfile:  
-`pod 'GoCoordinator', :git => 'https://github.com/schelterstudios/GoCoordinator.git'`
+`pod 'GoCoordinator'`
 
 # Creating a new app with GoCoordinator
 While the true strength of GoCoordinator is its extensibility, you can still reach a working demo with just a few steps. Try this guide to familiarize yourself with the setup.
